@@ -1,0 +1,24 @@
+<head>
+    <meta charset="utf-8">
+    <?= $this->headTitle('Moto')->setSeparator(' &bool; ')->setAutoEscape(false) ?>
+
+    <?= $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+    ?>
+
+    <!-- Le styles -->
+    <?= $this->headLink([
+        'rel' => 'shortcut icon',
+        'type' => 'image/svg+xml',
+        'href' => $this->basePath() . '/image/logo-symbol.svg'
+    ])
+        ->prependStylesheet($this->basePath('node_modules/material-symbols/sharp.css'))
+        ->prependStylesheet($this->basePath('style/theme-moto.css'))
+        ->prependStylesheet($this->basePath('style/main.css'))
+    ?>
+
+    <!-- Scripts -->
+    <?= $this->headScript()
+    ->prependFile($this->basePath('script/main.js'))?>
+</head>

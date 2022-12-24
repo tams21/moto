@@ -1,0 +1,18 @@
+<aside class="app-drawer" id="appDrawer">
+    <div class="app-drawer-surface">
+        <div class="app-drawer-header">
+            <div class="app-branding">
+                <img src="<?=$this->basePath('image/logo.svg')?>" alt="Moto">
+            </div>
+            <?=$this->partial('layout/_app-identity.phtml')?>
+        </div>
+        <div class="app-drawer-body">
+            <?=$this->partial('layout/_main-menu.phtml')?>
+        </div>
+        <div class="app-drawer-footer">
+            <div class="menu-item">
+                <a href="<?=$this->url('application', ['controller'=>'auth', 'action'=>'logout'])?>"><span class="material-symbols-sharp menu-item__graphic">logout</span>Изход</a>
+            </div>
+        </div>
+    </div>
+</aside>

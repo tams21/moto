@@ -1,0 +1,177 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Application;
+
+use Laminas\Router\Http\Literal;
+use Laminas\Router\Http\Segment;
+use Laminas\ServiceManager\Factory\InvokableFactory;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\ResultSet\ResultSet;
+use Laminas\Db\TableGateway\TableGateway;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+
+return [
+    'router' => [
+        'routes' => [
+            'main' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'application' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/:controller[/:action]',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'controllers' => [
+        'factories' => [
+            Controller\IndexController::class => ReflectionBasedAbstractFactory::class,
+            Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
+        ],
+        'aliases' => [
+            'index' => Controller\IndexController::class,
+            'auth' => Controller\AuthController::class,
+        ]
+    ],
+    "service_manager"=>[
+        "factories"=>[
+            Model\UserTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\UserTableGateway::class);
+                return new Model\UserTable($tableGateway);
+            },
+            Model\UserTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\User());
+                return new TableGateway('users', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            Model\OfficeTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\OfficeTableGateway::class);
+                return new Model\OfficeTable($tableGateway);
+            },
+            Model\OfficeTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Office());
+                return new TableGateway('office', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            
+            Model\MaintanenceShaduleTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\MaintanenceShaduleTableGateway::class);
+                return new Model\MaintanenceShaduleTable($tableGateway);
+            },
+            Model\MaintanenceShaduleTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\MaintanenceShadule());
+                return new TableGateway('maintanence_shadule', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            Model\RapairTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\RapairTableGateway::class);
+                return new Model\RapairTable($tableGateway);
+            },
+            Model\RapairTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Repair());
+                return new TableGateway('repair', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            Model\RefuelingTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\RefuelingTableGateway::class);
+                return new Model\RefuelingTable($tableGateway);
+            },
+            Model\RefuelingTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Refueling());
+                return new TableGateway('refueling', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            Model\TransireTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\TransireTableGateway::class);
+                return new Model\TransireTable($tableGateway);
+            },
+            Model\TransireTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Transire());
+                return new TableGateway('transire', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            Model\VechicleMaintanenceTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\VechicleMaintanenceTableGateway::class);
+                return new Model\VechicleMaintanenceTable($tableGateway);
+            },
+            Model\VechicleMaintanenceTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\VechicleMaintanence());
+                return new TableGateway('vechicle_maintanence', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            Model\VehicleTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\VehicleTableTableGateway::class);
+                return new Model\VehicleTable($tableGateway);
+            },
+            Model\VehicleTableTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Vehicle());
+                return new TableGateway('vehicles', $dbAdapter, null, $resultSetPrototype);
+            },
+            
+            
+        ]
+    ]
+   ,
+    'view_manager' => [
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => [
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ],
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+    ],
+];

@@ -1,0 +1,22 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headLink()->appendStylesheet($this->basePath('style/auth.css'));
+?>
+<div class="page">
+    <div class="login-panel">
+        <div class="app-branding">
+            <img src="<?=$this->basePath('image/logo.svg')?>" alt="Moto">
+        </div>
+        <form action="" method="post">
+            <div class="form-section">
+                <div class="form-field-wrapper"> <input type="text" name="username" placeholder="Потребителско име" /></div>
+                <div class="form-field-wrapper"> <input type="password" name="password" placeholder="Парола" /></div>
+            </div>
+            <div  class="form-section--controls">
+                <button><span class="material-symbols-sharp">login</span> Вход</button>
+            </div>
+        </form>
+    </div>
+</div>
