@@ -11,7 +11,7 @@ $this->headLink()->appendStylesheet($this->basePath('style/auth.css'));
         </div>
         <form action="" method="post">
             <div class="form-section">
-                <div class="form-field-wrapper"> <input type="text" name="username" placeholder="Потребителско име" /></div>
+                <div class="form-field-wrapper"> <input type="text" name="username" placeholder="Потребителско име" value="<?=$this->username?>" /></div>
                 <div class="form-field-wrapper"> <input type="password" name="password" placeholder="Парола" /></div>
             </div>
             <div  class="form-section--controls">

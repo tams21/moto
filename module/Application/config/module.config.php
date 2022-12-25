@@ -41,10 +41,12 @@ return [
         'factories' => [
             Controller\IndexController::class => ReflectionBasedAbstractFactory::class,
             Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
+            Controller\UserController::class => ReflectionBasedAbstractFactory::class,
         ],
         'aliases' => [
             'index' => Controller\IndexController::class,
             'auth' => Controller\AuthController::class,
+            'user' => Controller\UserController::class,
         ]
     ],
     "service_manager"=>[

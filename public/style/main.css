@@ -42,7 +42,7 @@ a:active, a:hover {
 .app-drawer.app-drawer--normal .app-drawer-surface {
     position: fixed;
     z-index: 10;
-    top: 0rem;
+    top: 0;
     left: calc(-100% - 1rem);
     transition: left 200ms ease-out;
 }
@@ -153,6 +153,9 @@ a:active, a:hover {
     -ms-user-select: none;
     user-select: none;
 }
+.menu-item:last-child {
+    border: none;
+}
 .menu-item a,.menu-item a:visited {
     position: relative;
     display: block;
@@ -181,6 +184,16 @@ a:active, a:hover {
     transition: all 200ms ease-out;
 }
 
+.menu-item--has-submenu>a::after {
+    content: 'expand_more';
+    color: inherit;
+    right: 0;
+}
+
+.menu-item--has-submenu.--expanded>a::after {
+    content: 'expand_less';
+}
+
 .menu-item a:hover::after,
 .menu-item a.--selected::after {
     color: inherit;
@@ -191,6 +204,18 @@ a:active, a:hover {
     display: inline-block;
     margin-right: 1rem;
 }
+.menu-item--has-submenu>.menu-item__submenu {
+    padding: 0 0 0 1rem;
+    overflow: hidden;
+    box-sizing: border-box;
+    max-height: 0;
+    transition: max-height 200ms ease-out;
+}
+
+.menu-item--has-submenu.--expanded>.menu-item__submenu {
+    max-height: 500px;
+}
+
 
 .app-main {
     flex: 1;
@@ -199,10 +224,14 @@ a:active, a:hover {
 }
 .app-bar {
     position: absolute;
+    display: flex;
     height: 3rem;
     width: 100%;
     z-index: 7;
     background-color: var(--background-panels-color);
+    box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.2),
+                0px 0px 5px 0px rgba(0, 0, 0, 0.1),
+                0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
 .app-bar__left-button,
@@ -210,23 +239,31 @@ a:active, a:hover {
     display: inline-block;
     border: none;
     background-color: transparent;
-    color: var(--text-color);
+    color: var(--text-color)!important;
     width: 3rem;
     height: 3rem;
     font-size: 1.5rem;
-    line-height: 2rem;
+    line-height: 3rem!important;
     text-align: center;
-    margin-right: 1rem;
+    text-decoration: none;
     padding: 0;
+    vertical-align: middle;
     box-shadow: unset!important;
+}
+.app-bar__left-button:hover {
+    text-decoration: none;
 }
 
 .app-bar__left-button span {
     font-size:inherit;
+    color: inherit;
 }
 
 .app-bar__title {
-
+    display: block;
+    flex: 1;
+    padding: 0.75rem 0 0 0.5rem;
+    font-size: 1.25rem;
 }
 
 .app-content {
@@ -243,24 +280,31 @@ a:active, a:hover {
     margin: 1rem;
 }
 
-/* */
 
-input {
+/* forms */
+
+input, select {
     padding: 0.5rem 0.25rem;
+    font-size: 1rem;
     border: 1px solid var(--border-color-light);
     border-radius: var(--border-radius-s);
     color: var(--text-color);
+    background-color: var(--background-color);
+    width: 14rem;
+    box-sizing: border-box;
 }
 
 button, .button {
+    display: inline-block;
     background-color: var(--primary-color);
-    color: var(--text-onprimary-color);
+    color: var(--text-onprimary-color)!important;
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
     border: none;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
+    box-sizing: border-box;
     cursor: pointer;
     box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 20%),
                 0px 0px 0px 0px rgb(0 0 0 / 14%),
@@ -269,9 +313,10 @@ button, .button {
 }
 
 button:hover, .button:hover {
+    text-decoration: none;
     box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
-    0px 5px 8px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 14px 0px rgba(0,0,0,.12);
+                0px 5px 8px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 14px 0px rgba(0,0,0,.12);
 }
 
 button:active, .button:active {
@@ -279,10 +324,176 @@ button:active, .button:active {
     background: var(--accent-color);
 }
 
+.icon-button, .icon-button:visited,
+.fab, .fab:visited {
+    font-family: "Material Symbols Sharp";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.5rem;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "liga";
+    vertical-align: middle;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    border-radius: 100px;
+    transition: all 200ms ease-out;
+}
+
+.icon-button, .icon-button:visited {
+    padding: 0.25rem;
+    color: var(--text-color);
+}
+
+.icon-button:hover, .icon-button:active {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: var(--text-onprimary-color);
+}
+
+.icon-button:active {
+    background-color: var(--accent-color);
+    color: var(--text-onaccent-color);
+}
+
+.fab, .fab:visited {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    font-size: 2rem;
+    padding: 0.5rem;
+
+    background-color: var(--accent-color);
+    color: var(--text-onaccent-color);
+    box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+}
+
+.fab:hover, .fab:active {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: var(--text-onprimary-color);
+}
+.fab:active {
+    background-color: var(--accent-color);
+    color: var(--text-onaccent-color);
+}
+
 .form-section {
     padding: 2rem;
 }
 
-.form-field-wrapper {
-    padding: 0.25rem 0.5rem;
+.form-panel {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: max-content;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
+
+.form-fields {
+    padding: 0.25rem 0 0 0;
+}
+
+.form-field-wrapper {
+
+    padding: 0.25rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+.form-field-wrapper label {
+    margin-right: 1rem;
+}
+
+.form-controls {
+    text-align: right;
+    padding: 2rem 0.25rem  0.25rem 0;
+}
+
+/* Lists */
+.app-list {
+    margin: 1rem 0 0 0;
+    padding: 0;
+    list-style: none;
+    /*border: 1px solid #0001;*/
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.app-list-item {
+    display: flex;
+    padding: 0.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background-color 200ms ease-out;
+}
+.app-list-item:not(:last-child) {
+    border-bottom: 1px solid #0001;
+}
+
+.app-list-item__target {
+
+
+}
+
+.app-list-item__target:hover {
+    background-color: #0001;
+}
+
+.app-list-item__graphic {
+    padding: 0 1rem 0 ;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+
+}
+
+.app-list-item__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0.25rem 0 ;
+}
+.app-list-item__body--line1 {
+    color: var(--primary-dark-color);
+    font-size: 1.25rem;
+}
+.app-list-item__body--line2 {
+    opacity: 0.75;
+    margin: 0.5rem 0 0 0;
+}
+
+.app-list-item__controls {
+    display: flex;
+    align-items: center;
+}
+
+
+.pagination {
+    margin: 1rem auto 2rem;
+    width: max-content;
+}
+.pagination-button {
+    display: inline-block;
+    padding: initial;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+    line-height: 2rem!important;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 100px;
+    background-color: #0001;
+    vertical-align: middle;
+}
+.pagination-button:hover {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: var(--text-onprimary-color);
+}
+

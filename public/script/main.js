@@ -1,5 +1,5 @@
 function app_ready() {
-    return new Promise((resolve, fail) => {
+    return new Promise((resolve) => {
         if (document.readyState === 'complete') {
             setTimeout(() => {
                 resolve();
@@ -17,7 +17,7 @@ function app_ready() {
 app_ready().then(()=>{
     const drawerToggle = document.querySelector('.app-drawer-toggle');
     const drawer = document.querySelector(drawerToggle.dataset.target);
-    drawerToggle.addEventListener('click', (e)=>{
+    drawerToggle.addEventListener('click', ()=>{
         drawer.classList.toggle('--opened');
     });
 
@@ -51,8 +51,24 @@ app_ready().then(()=>{
     }
     onResize();
     let resizeTimeout;
-    window.addEventListener('resize', (e)=>{
+    window.addEventListener('resize', ()=>{
         clearTimeout(resizeTimeout);
         setTimeout(onResize, 100);
     });
+
+    document.querySelectorAll('.menu-item--has-submenu .menu-item__submenu-trigger').forEach((item)=> {
+        item.addEventListener('click', (e) => {
+            e.target.closest('.menu-item').classList.toggle('--expanded');
+        });
+    });
+
+    document.addEventListener('click', (e)=> {
+        if (!e.target.closest('.button-require-confirmation')) {
+            return;
+        }
+
+        if (!confirm(e.target.dataset.confirmationMessage)) {
+            e.preventDefault();
+        }
+    })
 });

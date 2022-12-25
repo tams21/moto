@@ -1,0 +1,30 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/user.css'));
+?><div class="page">
+    <div class="form-panel">
+        <form action="" method="post">
+            <input type="hidden" name="id" value="<?=$this->model->id??''?>">
+            <div class="form-fields">
+                <div class="form-field-wrapper"><label for="inp-username">Потребителско име</label>
+                    <input type="text" name="username" id="inp-username" value="<?=$this->model->username??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-name">Име</label>
+                    <input type="text" name="name" id="inp-name" value="<?=$this->model->name??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-role">Роля</label>
+                    <select  name="role" id="inp-role">
+                        <option<?=($this->model->role??'')===''              ? ' selected' : ''?> value="">Изберете...</option>
+                        <option<?=($this->model->role??'')==='administrator' ? ' selected' : ''?> value="administrator">Администратор</option>
+                        <option<?=($this->model->role??'')==='driver'        ? ' selected' : ''?> value="driver">Шофжор</option>
+                    </select></div>
+            </div>
+
+            <div class="form-controls">
+                <a class="button" href="<?=$this->backlink?>"><span class="material-symbols-sharp">arrow_back</span> Назад</a>
+                <button><span class="material-symbols-sharp">save</span> Запис</button>
+            </div>
+        </form>
+    </div>
+</div>

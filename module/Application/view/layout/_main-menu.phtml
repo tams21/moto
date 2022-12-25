@@ -23,8 +23,16 @@
     <div class="menu-item">
         <a href="#"><span class="material-symbols-sharp menu-item__graphic">calendar_month</span>Годишна поддръжка</a>
     </div>
-     <div class="menu-item">
+    <div class="menu-item">
         <a href="#"><span class="material-symbols-sharp menu-item__graphic">settings_suggest</span>Сервизно обслужване</a>
+    </div>
+    <div class="menu-item menu-item--has-submenu">
+        <a href="#" class="menu-item__submenu-trigger"><span class="material-symbols-sharp menu-item__graphic">settings</span>Администриране</a>
+        <div class="menu-item__submenu">
+            <div class="menu-item">
+                <a href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">group</span>Потребители</a>
+            </div>
+        </div>
     </div>
     
 </nav>

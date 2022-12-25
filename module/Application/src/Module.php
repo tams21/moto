@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Application;
 
 use Application\Listener\DispatchListener;
+use Application\Model\UserTable;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Authentication;
 
@@ -33,7 +34,7 @@ class Module
                     return new Authentication\Storage\Session();
                 },
                 AppAuthAdapter::class => function ($container) {
-                    return new AppAuthAdapter();
+                    return new AppAuthAdapter($container->get(UserTable::class));
                 },
                 Authentication\AuthenticationServiceInterface::class => function ($container) {
                     $storage = $container->get(Authentication\Storage\Session::class);

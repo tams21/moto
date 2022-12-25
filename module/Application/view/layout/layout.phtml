@@ -1,4 +1,5 @@
 <?php
+use \Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 /**
  * @var Laminas\View\Renderer\PhpRenderer $this
  */
@@ -13,22 +14,32 @@
         <div class="app-main">
             <?php if ($this->identity()) {?>
             <header class="app-bar">
-                <button
-                        class="app-drawer-toggle app-bar__left-button"
-                        type="button"
-                        data-target="#appDrawer"
-                        aria-controls="appDrawer"
-                        aria-expanded="false"
-                        aria-label="Отваряне на менюто"
-                >
-                    <span class="material-symbols-sharp">menu</span>
-                </button>
-                <span class="app-bar__title">
 
+                <?php if (!empty($this->backlink)) {?>
+                    <a href="<?=$this->backlink?>" class="app-bar__left-button material-symbols-sharp">arrow_back</a>
+                <?php } else { ?>
+                    <button
+                            class="app-drawer-toggle app-bar__left-button"
+                            type="button"
+                            data-target="#appDrawer"
+                            aria-controls="appDrawer"
+                            aria-expanded="false"
+                            aria-label="Отваряне на менюто"
+                    >
+                        <span class="material-symbols-sharp">menu</span>
+                    </button>
+                <?php } ?>
+                <span class="app-bar__title">
+                    <?=$this->headTitle()->offsetGet(0)?>
                 </span>
             </header>
             <?php } ?>
             <main class="app-content<?= $this->identity() ? ' app-bar-page--fix' : ''?>" id="mainContent">
+                <?= $this->flashMessenger()->render(FlashMessenger::NAMESPACE_ERROR) ?>
+                <?= $this->flashMessenger()->render(FlashMessenger::NAMESPACE_WARNING) ?>
+                <?= $this->flashMessenger()->render(FlashMessenger::NAMESPACE_DEFAULT) ?>
+                <?= $this->flashMessenger()->render(FlashMessenger::NAMESPACE_INFO) ?>
+                <?= $this->flashMessenger()->render(FlashMessenger::NAMESPACE_SUCCESS) ?>
                 <?= $this->content ?>
             </main>
         </div>
