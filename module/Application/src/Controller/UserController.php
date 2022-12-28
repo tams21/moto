@@ -5,12 +5,10 @@ namespace Application\Controller;
 use Application\Model\Pagination;
 use Application\Model\User;
 use Application\Model\UserTable;
-use ControlPanel\Model\UserCredentials;
-use ControlPanel\Model\UserCredentialsTable;
-use ControlPanel\Model\UserPassword;
+use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
-class UserController extends \Laminas\Mvc\Controller\AbstractActionController
+class UserController extends AbstractActionController
 {
 
     const ITEMS_PER_PAGE = 10;
@@ -100,7 +98,7 @@ class UserController extends \Laminas\Mvc\Controller\AbstractActionController
             $this->userTable->insert($newUser);
         } catch (\Exception $e) {
             $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
-            return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'edit'], ['query' => ['id'=>$id]]);
+            return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'edit']);
         }
 
         $this->flashMessenger()->addErrorMessage("Успешно добавен потребител @{$newUser->username}!");
