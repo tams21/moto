@@ -95,6 +95,8 @@ a:active, a:hover {
     border-top: 1px solid var(--border-color-light);
     border-bottom: 1px solid var(--border-color-light);
     flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .app-drawer-footer {
