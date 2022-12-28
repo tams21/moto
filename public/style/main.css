@@ -28,7 +28,7 @@ a:active, a:hover {
 
 .app-branding {
     background-color: var(--background-panels-color);
-    padding: 2rem;
+    padding: 2rem 2rem 1rem;
     cursor: default;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -294,6 +294,10 @@ input, select {
     background-color: var(--background-color);
     width: 14rem;
     box-sizing: border-box;
+}
+
+input[readonly], select[readonly] {
+    opacity: 0.6;
 }
 
 button, .button {

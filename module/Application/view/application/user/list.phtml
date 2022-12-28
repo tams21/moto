@@ -18,6 +18,8 @@ $this->headLink()->appendStylesheet($this->basePath('style/user.css'));
                         <span class="app-list-item__controls">
                             <a href="<?=$this->url('application', ['controller'=>'user','action'=>'edit'],['query'=>['id'=>$u->id]])?>"
                                class="icon-button">edit</a>
+                            <a href="<?=$this->url('application', ['controller'=>'user','action'=>'setCustomPass'],['query'=>['id'=>$u->id]])?>"
+                               class="icon-button">password</a>
                             <a href="<?=$this->url('application', ['controller'=>'user','action'=>'delete'],['query'=>['id'=>$u->id]])?>"
                                class="icon-button button-require-confirmation"
                             data-confirmation-message="Сигурни ли сте, че искате да изтриете този потребител? (Операцията е необратима!)">delete</a>

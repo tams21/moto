@@ -29,6 +29,7 @@ class User extends \ArrayObject
         $this->password=$input["password"]??null;
         $this->role=$input["role"]??null;
         $this->created=$input["created"]??null;
+        parent::exchangeArray($input);
     }
     
     public function checkPasswordAgainst(string $password): bool
@@ -38,6 +39,7 @@ class User extends \ArrayObject
     
     public function changePassword($newPassword) {
         $this->password = self::getCrypt()->create($newPassword);
+        $this['password'] = $this->password;
     }
     
     private static function getCrypt()

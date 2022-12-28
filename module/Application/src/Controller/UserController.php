@@ -5,6 +5,9 @@ namespace Application\Controller;
 use Application\Model\Pagination;
 use Application\Model\User;
 use Application\Model\UserTable;
+use ControlPanel\Model\UserCredentials;
+use ControlPanel\Model\UserCredentialsTable;
+use ControlPanel\Model\UserPassword;
 use Laminas\View\Model\ViewModel;
 
 class UserController extends \Laminas\Mvc\Controller\AbstractActionController
@@ -125,5 +128,47 @@ class UserController extends \Laminas\Mvc\Controller\AbstractActionController
 
         $this->flashMessenger()->addErrorMessage("Успешно изтрит потребител @{$user->username}!");
         return $this->redirect()->toUrl($backLink);
+    }
+
+    public function SetCustomPassAction()
+    {
+        $id = $this->params()->fromQuery('id');
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'user', 'action'=>'list']);
+
+        $viewData = [
+            'title' => 'Задаване на парола',
+            'backlink' => $backLink,
+        ];
+
+        try {
+            /** @var User $user */
+            $user = $this->userTable->fetchById($id);
+            $viewData['model'] = $user;
+        } catch(\Exception $e) {
+            $this->flashMessenger()->addErrorMessage("Не е открит потребител с идентификатор @{$user->username}");
+            return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'list']);
+        }
+
+        $postedData = $this->params()->fromPost();
+        if (empty($postedData)) {
+            // Not posted
+            return new ViewModel($viewData);
+        }
+
+        if ($postedData['password'] !== $postedData['password2']) {
+            $this->flashMessenger()->addErrorMessage("Паролата и потвърждението не съвпадат! Моля изпишете два пъти новата парола по идентичен начин!");
+            return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'setCustomPass'],['query'=>['id'=>$id]]);
+        }
+
+        $user->changePassword($postedData['password']);
+
+        try {;
+            $this->userTable->update($user);
+            $this->flashMessenger()->addSuccessMessage("Успешно зададена парола за потребител {$user->name}");
+            return $this->redirect()->toUrl($backLink);
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage("Възникна проблем при запис на паролата.");
+            return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'setCustomPass'],['query'=>['id'=>$id]]);
+        }
     }
 }
