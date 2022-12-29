@@ -277,6 +277,35 @@ LOCK TABLES `vechicle_maintanence` WRITE;
 /*!40000 ALTER TABLE `vechicle_maintanence` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+CREATE TABLE `fuel` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `name` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+LOCK TABLES `fuel` WRITE;
+/*!40000 ALTER TABLE `fuel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fuel` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
+-- Table structure for table `vehicle_fuel`
+--
+
+CREATE TABLE `vehicle_fuel` (
+    `vehicle_id` int NOT NULL,
+    `fuel_id` int NOT NULL,
+    PRIMARY KEY (`vehicle_id`,`fuel_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+LOCK TABLES `vehicle_fuel` WRITE;
+/*!40000 ALTER TABLE `vehicle_fuel` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vehicle_fuel` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 --
 -- Table structure for table `vehicles`
 --
@@ -286,10 +315,12 @@ DROP TABLE IF EXISTS `vehicles`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vehicles` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `reg_nomer` varchar(45) DEFAULT NULL,
+  `reg_nomer` varchar(10) NOT NULL,
   `model` varchar(45) DEFAULT NULL,
-  `fuel` varchar(45) DEFAULT NULL,
-  `odometer` int DEFAULT NULL,
+  `odometer` varchar(8) NOT NULL,
+  `color` varchar(25) DEFAULT NULL,
+  `year_manufactured` varchar(4) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `reg_nomer_UNIQUE` (`reg_nomer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;

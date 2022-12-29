@@ -285,7 +285,7 @@ a:active, a:hover {
 
 /* forms */
 
-input, select {
+input, select, textarea {
     padding: 0.5rem 0.25rem;
     font-size: 1rem;
     border: 1px solid var(--border-color-light);
@@ -296,7 +296,7 @@ input, select {
     box-sizing: border-box;
 }
 
-input[readonly], select[readonly] {
+input[readonly], select[readonly], textarea[readonly] {
     opacity: 0.6;
 }
 
@@ -415,6 +415,11 @@ button:active, .button:active {
 }
 .form-field-wrapper label {
     margin-right: 1rem;
+    padding: 0.5rem 0 0 0;
+}
+.form-field-wrapper button {
+    padding: 0.25rem 1rem;
+    margin-left: 1rem;
 }
 
 .form-controls {
@@ -440,11 +445,6 @@ button:active, .button:active {
 }
 .app-list-item:not(:last-child) {
     border-bottom: 1px solid #0001;
-}
-
-.app-list-item__target {
-
-
 }
 
 .app-list-item__target:hover {

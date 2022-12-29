@@ -1,0 +1,57 @@
+.vehicle-list {
+    max-width:460px;
+    margin: 1rem auto;
+}
+
+.content-stub {
+    border: 1px solid var(--accent-color);
+    background-color: var(--accent-dark-color);
+    color: var(--text-onaccent-color);
+    text-align: center;
+    max-width: 460px;
+    margin: 3rem auto;
+    padding: 3rem;
+    font-size: 1.25em;
+    border-radius: 0.5rem;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.remove-item {
+    color: #e00;
+    font-weight: bold;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    vertical-align: middle;
+}
+
+#fuel_list {
+    width: 200px;
+    list-style: none;
+    margin: 1rem 0 ;
+    padding: 0;
+    /*border: 1px solid #0001;*/
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+                0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+                0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+#fuel_list li {
+    display: flex;
+    padding: 0.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    line-height: 1.5rem;
+    transition: background-color 200ms ease-out;
+}
+
+#fuel_list li:not(:last-child) {
+    border-bottom: 1px solid #0001;
+}
+
+#fuel_list li span:first-child {
+    flex: 1;
+}

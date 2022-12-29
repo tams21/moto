@@ -5,17 +5,18 @@ namespace Application\Model;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Expression;
 use Laminas\Db\Sql\Select;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 
 class AbstractTable
 {
     private $tableGateway;
-    public function __construct(TableGatewayInterface $tableGateway)
+    public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway() : TableGatewayInterface
+    public function getTableGateway() : TableGateway
     {
         return $this->tableGateway;
     }
@@ -53,10 +54,10 @@ class AbstractTable
         return (int)$row['total'];
     }
 
-    public function fetchById(int $id): User
+    public function fetchById(int $id)
     {
-        $user = $this->getTableGateway()->select(['id'=>$id]);
-        return $user->current();
+        $model = $this->getTableGateway()->select(['id'=>$id]);
+        return $model->current();
     }
 
     public function fetchAllByUsername($username)

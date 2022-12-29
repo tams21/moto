@@ -41,11 +41,13 @@ return [
         'factories' => [
             Controller\IndexController::class => ReflectionBasedAbstractFactory::class,
             Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
+            Controller\VehicleController::class => ReflectionBasedAbstractFactory::class,
             Controller\UserController::class => ReflectionBasedAbstractFactory::class,
         ],
         'aliases' => [
             'index' => Controller\IndexController::class,
             'auth' => Controller\AuthController::class,
+            'vehicle' => Controller\VehicleController::class,
             'user' => Controller\UserController::class,
         ]
     ],
@@ -129,6 +131,19 @@ return [
                 $resultSetPrototype->setArrayObjectPrototype(new Model\Transire());
                 return new TableGateway('transire', $dbAdapter, null, $resultSetPrototype);
             },
+
+            Model\FuelTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\FuelTableGateway::class);
+                return new Model\FuelTable($tableGateway);
+            },
+            Model\FuelTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Fuel());
+                return new TableGateway('fuel', $dbAdapter, null, $resultSetPrototype);
+            },
             
             Model\VechicleMaintanenceTable::class=>function ($container)
             {
@@ -146,7 +161,8 @@ return [
             Model\VehicleTable::class=>function ($container)
             {
                 $tableGateway=$container->get(Model\VehicleTableTableGateway::class);
-                return new Model\VehicleTable($tableGateway);
+                $vehicleFuelTableGateway=$container->get(Model\VehicleFuelTableTableGateway::class);
+                return new Model\VehicleTable($tableGateway, $vehicleFuelTableGateway);
             },
             Model\VehicleTableTableGateway::class=>function ($container)
             {
@@ -154,6 +170,14 @@ return [
                 $resultSetPrototype=new ResultSet();
                 $resultSetPrototype->setArrayObjectPrototype(new Model\Vehicle());
                 return new TableGateway('vehicles', $dbAdapter, null, $resultSetPrototype);
+            },
+
+            Model\VehicleFuelTableTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\VehicleFuel());
+                return new TableGateway('vehicle_fuel', $dbAdapter, null, $resultSetPrototype);
             },
             
             

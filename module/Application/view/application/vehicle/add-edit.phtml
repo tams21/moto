@@ -1,0 +1,54 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
+$this->headScript()->appendFile($this->basePath('script/vehicle.js'));
+?><div class="page">
+    <div class="form-panel">
+        <form action="" method="post">
+            <input type="hidden" name="id" value="<?=$this->model->id??''?>">
+            <div class="form-fields">
+                <div class="form-field-wrapper"><label for="inp-reg_nomer">Регистрационен номер</label>
+                    <input type="text" name="reg_nomer" id="inp-reg_nomer" value="<?=$this->model->reg_nomer??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-model">Модел</label>
+                    <input type="text" name="model" id="inp-model" value="<?=$this->model->model??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-odometer">Одометър</label>
+                    <input type="number" maxlength="8" minlength="6" name="odometer" id="inp-odometer" value="<?=$this->model->odometer??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-color">Цвят</label>
+                    <input type="text" name="color" id="inp-color" value="<?=$this->model->color??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-year_manufactured">Година на производство</label>
+                    <input type="text" name="year_manufactured" id="inp-year_manufactured" value="<?=$this->model->year_manufactured??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-notes">Бележки</label>
+                    <textarea name="notes" id="inp-notes" rows="3"><?=$this->model->notes??''?></textarea></div>
+
+                <div class="form-list">
+                    <h3>Гориво</h3>
+                    <ul id="fuel_list">
+                        <?php foreach($this->model->getFuels() as $f) {?>
+                            <li><span><?=$this->fuels[$f]->name?></span>
+                                <input type="hidden" name="fuel[]" value="<?=$f?>">
+                            <span class="material-symbols-sharp remove-item">close</span></li>
+                        <?php } ?>
+                    </ul>
+                    <div class="form-field-wrapper"><label for="inp-fuel">Добавяне на гориво</label>
+                        <select id="inp-fuel">
+                            <option value="">Изберете...</option>
+                            <?php foreach($this->fuels??[] as $f) {?>
+                                <option value="<?=$f->id?>"><?=$f->name?></option>
+                            <?php } ?>
+                        </select>
+                        <button type="button" id="addFuelButton">Добави</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-controls">
+                <a class="button" href="<?=$this->backlink?>"><span class="material-symbols-sharp">arrow_back</span> Назад</a>
+                <button><span class="material-symbols-sharp">save</span> Запис</button>
+            </div>
+        </form>
+    </div>
+</div>
