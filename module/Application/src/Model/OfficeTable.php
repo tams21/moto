@@ -1,18 +1,40 @@
 <?php
-namespace module\Application\src\Model;
+namespace Application\Model;
 
-use Laminas\Db\TableGateway\TableGatewayInterface;
-
-class OfficeTable
+class OfficeTable extends AbstractTable
 {
-    private $tableGateway;
-    public function __construct(TableGatewayInterface $tableGateway)
+    /**
+     * @param Office $model
+     * @return int
+     */
+    public function update(Office $model) :int
     {
-        $this->tableGateway=$tableGateway;
+        $data = $model->getArrayCopy();
+        $id =  $model->id;
+        unset($data['id']);
+
+        return $this->updateRecord($data, ['id' => $id]);
     }
-    public function fetchAll()
+
+    /**
+     * @param Office $model
+     * @return int
+     */
+    public function insert(Office $model) :int
     {
-        return $this->tableGateway->select();
+        $data = $model->getArrayCopy();
+        unset($data['id']);
+        return $this->insertRecord($data);
+
+    }
+
+    /**
+     * @param Office $model
+     * @return int
+     */
+    public function delete(Office $model) :int
+    {
+        return $this->deleteRecord(['id' => $model->id]);
     }
 }
 

@@ -13,6 +13,6 @@ class Office extends \ArrayObject
         $this->id=$input["id"];
         $this->name=$input["name"];
         $this->city=$input["city"];
-        
+        parent::exchangeArray($input);
     }
 }

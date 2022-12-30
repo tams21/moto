@@ -41,12 +41,14 @@ return [
             Controller\IndexController::class => ReflectionBasedAbstractFactory::class,
             Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
             Controller\VehicleController::class => ReflectionBasedAbstractFactory::class,
+            Controller\OfficeController::class => ReflectionBasedAbstractFactory::class,
             Controller\UserController::class => ReflectionBasedAbstractFactory::class,
         ],
         'aliases' => [
             'index' => Controller\IndexController::class,
             'auth' => Controller\AuthController::class,
             'vehicle' => Controller\VehicleController::class,
+            'office' => Controller\OfficeController::class,
             'user' => Controller\UserController::class,
         ]
     ],
