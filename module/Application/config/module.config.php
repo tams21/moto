@@ -157,11 +157,11 @@ return [
                 return new TableGateway('vechicle_maintanence', $dbAdapter, null, $resultSetPrototype);
             },
             
-            Model\OfficeTable::class=>function ($container)
+            Model\VehicleTable::class=>function ($container)
             {
                 $tableGateway=$container->get(Model\VehicleTableTableGateway::class);
                 $vehicleFuelTableGateway=$container->get(Model\VehicleFuelTableTableGateway::class);
-                return new Model\OfficeTable($tableGateway, $vehicleFuelTableGateway);
+                return new Model\VehicleTable($tableGateway, $vehicleFuelTableGateway);
             },
             Model\VehicleTableTableGateway::class=>function ($container)
             {

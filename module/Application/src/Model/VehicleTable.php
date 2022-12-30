@@ -1,8 +1,6 @@
 <?php
 namespace Application\Model;
 
-use Laminas\Db\Sql\Insert;
-use Laminas\Db\Sql\Select;
 use Laminas\Db\TableGateway\TableGateway;
 
 class VehicleTable extends AbstractTable
