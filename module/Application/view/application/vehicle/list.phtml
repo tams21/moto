@@ -32,13 +32,13 @@ $this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
             <?php if ($lastPage > $firstPage) { ?>
                 <div class="pagination">
                     <?php if ($firstPage > 1) { ?>
-                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'],['query'=>['page'=>1]])?>">first_page</a>
+                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'list'],['query'=>['page'=>1]])?>">first_page</a>
                     <?php } ?>
                     <?php for ($p = $firstPage; $p <= $lastPage && $p < $firstPage + 100; $p++) {?>
-                        <a class="pagination-button" href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'],['query'=>['page'=>$p]])?>"><?=$p?></a>
+                        <a class="pagination-button" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'list'],['query'=>['page'=>$p]])?>"><?=$p?></a>
                     <?php } ?>
                     <?php if ($lastPage < $this->pagination->getTotalPages()) { ?>
-                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'],['query'=>['page'=>$this->pagination->getTotalPages()]])?>">last_page</a>
+                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'list'],['query'=>['page'=>$this->pagination->getTotalPages()]])?>">last_page</a>
                     <?php } ?>
                 </div>
             <?php } ?>

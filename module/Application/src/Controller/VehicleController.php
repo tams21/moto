@@ -4,8 +4,6 @@ namespace Application\Controller;
 
 use Application\Model\FuelTable;
 use Application\Model\Pagination;
-use Application\Model\User;
-use Application\Model\UserTable;
 use Application\Model\Vehicle;
 use Application\Model\VehicleTable;
 use Laminas\View\Model\ViewModel;
@@ -82,7 +80,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран ажтомобил '{$vehicle->reg_nomer}'!");
+        $this->flashMessenger()->addErrorMessage("Успешно редактиран автомобил '{$vehicle->reg_nomer}'!");
         return $this->redirect()->toUrl($backLink);
     }
 

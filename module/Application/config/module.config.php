@@ -6,7 +6,6 @@ namespace Application;
 
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
-use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
@@ -158,11 +157,11 @@ return [
                 return new TableGateway('vechicle_maintanence', $dbAdapter, null, $resultSetPrototype);
             },
             
-            Model\VehicleTable::class=>function ($container)
+            Model\OfficeTable::class=>function ($container)
             {
                 $tableGateway=$container->get(Model\VehicleTableTableGateway::class);
                 $vehicleFuelTableGateway=$container->get(Model\VehicleFuelTableTableGateway::class);
-                return new Model\VehicleTable($tableGateway, $vehicleFuelTableGateway);
+                return new Model\OfficeTable($tableGateway, $vehicleFuelTableGateway);
             },
             Model\VehicleTableTableGateway::class=>function ($container)
             {
