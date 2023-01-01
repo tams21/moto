@@ -42,6 +42,7 @@ return [
             Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
             Controller\VehicleController::class => ReflectionBasedAbstractFactory::class,
             Controller\OfficeController::class => ReflectionBasedAbstractFactory::class,
+            Controller\FuelController::class => ReflectionBasedAbstractFactory::class,
             Controller\UserController::class => ReflectionBasedAbstractFactory::class,
         ],
         'aliases' => [
@@ -49,6 +50,7 @@ return [
             'auth' => Controller\AuthController::class,
             'vehicle' => Controller\VehicleController::class,
             'office' => Controller\OfficeController::class,
+            'fuel' => Controller\FuelController::class,
             'user' => Controller\UserController::class,
         ]
     ],
