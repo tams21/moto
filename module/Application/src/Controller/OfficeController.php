@@ -71,7 +71,7 @@ class OfficeController extends \Laminas\Mvc\Controller\AbstractActionController
             $this->officeTable->update($newOffice);
         } catch (\Exception $e) {
             $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
-            return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'edit'], ['query' => ['id'=>$id]]);
+            return $this->redirect()->toRoute('application', ['controller'=>'office', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
         $this->flashMessenger()->addErrorMessage("Успешно редактиран офис '{$office->name}'!");
