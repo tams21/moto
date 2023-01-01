@@ -26,14 +26,17 @@ class AbstractTable
         return $this->getTableGateway()->select();
     }
 
-    public function fetchAllPaginated(int $page=1, int $onPage=20): ResultSetInterface
+    public function fetchAllPaginated(int $page=1, int $onPage=20, $filter = null): ResultSetInterface
     {
-        $select = $this->getTableGateway()->getSql()->select();
-        $select->quantifier('SQL_CALC_FOUND_ROWS');
-        $select->limit($onPage);
-        $select->limit($onPage);
-        $select->offset(($page-1) * $onPage);
-        return $this->getTableGateway()->selectWith($select);
+        return $this->getTableGateway()->select(function($select) use ($page, $onPage, $filter){
+            $select->quantifier('SQL_CALC_FOUND_ROWS');
+            $select->limit($onPage);
+            $select->limit($onPage);
+            $select->offset(($page-1) * $onPage);
+            if (is_callable($filter)) {
+                $filter($select);
+            }
+        });
     }
     public function getLastFoundRows(): int
     {

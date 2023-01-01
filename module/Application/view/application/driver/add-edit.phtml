@@ -1,0 +1,36 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/driver.css'));
+?><div class="page">
+    <div class="form-panel">
+        <form action="" method="post">
+            <input type="hidden" name="id" value="<?=$this->model->id??''?>">
+            <div class="form-fields">
+                <div class="form-field-wrapper"><label for="inp-name">Име</label>
+                    <input type="text" name="name" id="inp-name" value="<?=$this->model->name??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-office_id">Офис</label>
+                    <select id="inp-office_id" name="office_id">
+                        <option value="">Изберете...</option>
+                        <?php foreach($this->offices??[] as $v) {?>
+                            <option value="<?=$v->id?>"<?=($this->model->office_id??'')===$v->id? ' selected' : ''?>><?=$v->name?></option>
+                        <?php } ?>
+                    </select></div>
+                <div class="form-field-wrapper"><label for="inp-vehicle_id">Автомобил</label>
+                    <select id="inp-vehicle_id" name="vehicle_id">
+                        <option value="">Изберете...</option>
+                        <?php foreach($this->vehicles??[] as $v) {?>
+                            <option value="<?=$v->id?>"<?=($this->model->vehicle_id??'')===$v->id? ' selected' : ''?>>[<?=$v->reg_nomer?>] <?=$v->model?></option>
+                        <?php } ?>
+                    </select></div>
+            </div>
+
+            <div class="form-controls">
+                <a class="button" href="<?=$this->backlink?>"><span class="material-symbols-sharp">arrow_back</span> Назад</a>
+                <button><span class="material-symbols-sharp">save</span> Запис</button>
+            </div>
+        </form>
+    </div>
+</div>

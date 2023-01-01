@@ -42,6 +42,7 @@ return [
             Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
             Controller\VehicleController::class => ReflectionBasedAbstractFactory::class,
             Controller\OfficeController::class => ReflectionBasedAbstractFactory::class,
+            Controller\DriverController::class => ReflectionBasedAbstractFactory::class,
             Controller\FuelController::class => ReflectionBasedAbstractFactory::class,
             Controller\UserController::class => ReflectionBasedAbstractFactory::class,
         ],
@@ -50,6 +51,7 @@ return [
             'auth' => Controller\AuthController::class,
             'vehicle' => Controller\VehicleController::class,
             'office' => Controller\OfficeController::class,
+            'driver' => Controller\DriverController::class,
             'fuel' => Controller\FuelController::class,
             'user' => Controller\UserController::class,
         ]
@@ -67,6 +69,19 @@ return [
                 $resultSetPrototype=new ResultSet();
                 $resultSetPrototype->setArrayObjectPrototype(new Model\User());
                 return new TableGateway('users', $dbAdapter, null, $resultSetPrototype);
+            },
+
+            Model\DriverTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\DriverTableGateway::class);
+                return new Model\DriverTable($tableGateway);
+            },
+            Model\DriverTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Driver());
+                return new TableGateway('drivers', $dbAdapter, null, $resultSetPrototype);
             },
             
             Model\OfficeTable::class=>function ($container)

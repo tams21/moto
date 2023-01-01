@@ -1,0 +1,62 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle('Шофьор');
+$this->headLink()->appendStylesheet($this->basePath('style/driver.css'));
+?><div class="page">
+    <div class="list-panel">
+        <?php if (!empty($this->models)) {?>
+            <ul class="app-list driver-list">
+                <?php foreach ($this->models as $m) {
+                    $office = $m->getOffice();
+                    $vehicle = $m->getVehicle();
+                    ?>
+                    <li class="app-list-item">
+                        <span class="app-list-item__graphic"><span class="material-symbols-sharp">badge</span></span>
+                        <span class="app-list-item__body">
+                            <span class="app-list-item__body--line1"><?=$m->name?></span>
+                            <span class="app-list-item__body--line2">
+                                <span class="driver-details"><span class="material-symbols-sharp">location_city</span> <?= empty($office)
+                                        ? '-'
+                                        : ("<a href=\"{$this->url('application',['controller'=>'office', 'action'=>'edit'], ['query'=>['id'=>$office->id]])}\">".$office->name??'')?></a></span>
+                                <span class="driver-details"><span class="material-symbols-sharp">directions_car</span> <?= empty($vehicle)
+                                        ? '-'
+                                        : ("<a href=\"{$this->url('application',['controller'=>'vehicle', 'action'=>'edit'], ['query'=>['id'=>$vehicle->id]])}\">[".($vehicle->reg_nomer??'') . '] ' . ($vehicle->model??''))?></a></span>
+                            </span>
+                        </span>
+                        <span class="app-list-item__controls">
+                            <a href="<?=$this->url('application', ['controller'=>'driver','action'=>'edit'],['query'=>['id'=>$m->id]])?>"
+                               class="icon-button">edit</a>
+                            <a href="<?=$this->url('application', ['controller'=>'driver','action'=>'delete'],['query'=>['id'=>$m->id]])?>"
+                               class="icon-button button-require-confirmation"
+                            data-confirmation-message="Сигурни ли сте, че искате да изтриете този шофьор? (Операцията е необратима!)">delete</a>
+                        </span>
+                    </li>
+                <?php } ?>
+            </ul>
+            <?php
+                $firstPage = $this->pagination->firstPageToList();
+                $lastPage = $this->pagination->lastPageToList();
+            ?>
+            <?php if ($lastPage > $firstPage) { ?>
+                <div class="pagination">
+                    <?php if ($firstPage > 1) { ?>
+                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'driver', 'action'=>'list'],['query'=>['page'=>1]])?>">first_page</a>
+                    <?php } ?>
+                    <?php for ($p = $firstPage; $p <= $lastPage && $p < $firstPage + 100; $p++) {?>
+                        <a class="pagination-button" href="<?=$this->url('application', ['controller'=>'driver', 'action'=>'list'],['query'=>['page'=>$p]])?>"><?=$p?></a>
+                    <?php } ?>
+                    <?php if ($lastPage < $this->pagination->getTotalPages()) { ?>
+                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'driver', 'action'=>'list'],['query'=>['page'=>$this->pagination->getTotalPages()]])?>">last_page</a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+        <?php } else { ?>
+            <div class="content-stub">
+                Няма въведени шофьори!
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<a class="fab" href="<?=$this->url('application', ['controller'=>'driver', 'action'=>'add'])?>">add</a>

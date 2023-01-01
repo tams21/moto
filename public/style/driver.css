@@ -1,0 +1,9 @@
+.driver-list {
+    max-width:500px;
+    margin: 1rem auto;
+}
+
+.driver-details {
+    display: inline-block;
+    margin-right: 1rem;
+}
