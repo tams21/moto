@@ -42,4 +42,6 @@ create table moto.vehicle_fuel
         primary key (vehicle_id, fuel_id)
 );
 
-
+# 2023-01-01 - drivers
+alter table drivers
+    change vechicle_id vehicle_id int null;

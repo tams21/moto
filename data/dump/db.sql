@@ -52,7 +52,7 @@ CREATE TABLE `drivers` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `office_id` int DEFAULT NULL,
-  `vechicle_id` int DEFAULT NULL,
+  `vehicle_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
