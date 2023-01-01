@@ -5,12 +5,6 @@
     <div class="menu-item">
         <a href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">directions_car</span>Авто парк</a>
     </div>
-    <div class="menu-item">
-        <a href="#"><span class="material-symbols-sharp menu-item__graphic">group</span>Шофьори</a>
-    </div>
-    <div class="menu-item">
-        <a href="<?=$this->url('application', ['controller'=>'office', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">location_city</span>Офиси</a>
-    </div>
      <div class="menu-item">
         <a href="#"><span class="material-symbols-sharp menu-item__graphic">receipt_long</span>Пътен лист</a>
     </div>
@@ -29,6 +23,12 @@
     <div class="menu-item menu-item--has-submenu">
         <a href="#" class="menu-item__submenu-trigger"><span class="material-symbols-sharp menu-item__graphic">settings</span>Администриране</a>
         <div class="menu-item__submenu">
+            <div class="menu-item">
+                <a href="<?=$this->url('application', ['controller'=>'office', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">location_city</span>Офиси</a>
+            </div>
+            <div class="menu-item">
+                <a href="#"><span class="material-symbols-sharp menu-item__graphic">badge</span>Шофьори</a>
+            </div>
             <div class="menu-item">
                 <a href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">group</span>Потребители</a>
             </div>
