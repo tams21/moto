@@ -479,6 +479,11 @@ button:active, .button:active {
     align-items: center;
 }
 
+.list-details {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
 
 .content-stub {
     border: 1px solid var(--accent-color);

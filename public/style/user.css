@@ -3,3 +3,13 @@
     margin: 1rem auto;
 
 }
+
+#driver-role {
+    overflow: hidden;
+    max-height: 50px;
+    transition: max-height 200ms ease-out;
+}
+
+#driver-role:not(.--opened) {
+    max-height: 0;
+}

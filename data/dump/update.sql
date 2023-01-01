@@ -45,3 +45,7 @@ create table moto.vehicle_fuel
 # 2023-01-01 - drivers
 alter table drivers
     change vechicle_id vehicle_id int null;
+
+
+alter table users
+    add driver_id int null;

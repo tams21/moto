@@ -11,6 +11,8 @@ class User extends \ArrayObject
     public $password;
     public $role;
     public $created;
+    public $driver_id;
+    private $driver;
 
     public function __construct($array = [], int $flags = 0, $iteratorClass = "ArrayIterator")
     {
@@ -29,6 +31,18 @@ class User extends \ArrayObject
         $this->password=$input["password"]??null;
         $this->role=$input["role"]??null;
         $this->created=$input["created"]??null;
+        $this->driver_id=$input["driver_id"]??null;
+        if (!empty($input["driver_name"])) {
+            $driverData = [
+                'id' => $input["driver_id"]??null,
+                'name' => $input["driver_name"]??null,
+                'office_id' => $input["driver_office_id"]??null,
+                'vehicle_id' => $input["driver_vehicle_id"]??null,
+            ];
+            $driver = new Driver();
+            $driver->exchangeArray($driverData);
+            $this->setDriver($driver);
+        }
         parent::exchangeArray($input);
     }
     
@@ -50,6 +64,22 @@ class User extends \ArrayObject
         return self::$crypt = new Bcrypt([
             'cost'=>11
         ]);
+    }
+
+    /**
+     * @return Driver|null
+     */
+    public function getDriver(): ?Driver
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @param Driver $driver
+     */
+    public function setDriver(Driver $driver): void
+    {
+        $this->driver = $driver;
     }
 }
 

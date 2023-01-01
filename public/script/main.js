@@ -16,6 +16,9 @@ function app_ready() {
 
 app_ready().then(()=>{
     const drawerToggle = document.querySelector('.app-drawer-toggle');
+    if (!drawerToggle) {
+        return;
+    }
     const drawer = document.querySelector(drawerToggle.dataset.target);
     drawerToggle.addEventListener('click', ()=>{
         drawer.classList.toggle('--opened');

@@ -234,6 +234,7 @@ CREATE TABLE `users` (
   `password` varchar(60) DEFAULT NULL,
   `role` enum('administrator','driver') DEFAULT NULL,
   `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `driver_id` int NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;

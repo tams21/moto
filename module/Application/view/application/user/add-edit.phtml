@@ -4,6 +4,7 @@
  */
 $this->headTitle($this->title);
 $this->headLink()->appendStylesheet($this->basePath('style/user.css'));
+$this->headScript()->appendFile($this->basePath('script/user.js'));
 ?><div class="page">
     <div class="form-panel">
         <form action="" method="post">
@@ -17,8 +18,17 @@ $this->headLink()->appendStylesheet($this->basePath('style/user.css'));
                     <select  name="role" id="inp-role">
                         <option<?=($this->model->role??'')===''              ? ' selected' : ''?> value="">Изберете...</option>
                         <option<?=($this->model->role??'')==='administrator' ? ' selected' : ''?> value="administrator">Администратор</option>
-                        <option<?=($this->model->role??'')==='driver'        ? ' selected' : ''?> value="driver">Шофжор</option>
+                        <option<?=($this->model->role??'')==='driver'        ? ' selected' : ''?> value="driver">Шофьор</option>
                     </select></div>
+                <div id="driver-role" class="<?=($this->model->role??'')==='driver'?'--opened':''?>">
+                    <div class="form-field-wrapper"><label for="inp-driver_id">Избор на шофьор</label>
+                        <select id="inp-driver_id" name="driver_id">
+                            <option value=""><?=empty($this->model->id) ? 'Създай нов шофьор' : 'Изберете ...'?></option>
+                            <?php foreach($this->drivers??[] as $v) {?>
+                                <option value="<?=$v->id?>"<?=($this->model->driver_id??'')===$v->id? ' selected' : ''?>><?=$v->name?></option>
+                            <?php } ?>
+                        </select></div>
+                </div>
             </div>
 
             <div class="form-controls">

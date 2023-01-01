@@ -8,12 +8,19 @@ $this->headLink()->appendStylesheet($this->basePath('style/user.css'));
     <div class="list-panel">
         <?php if (!empty($this->users)) {?>
             <ul class="app-list users-list">
-                <?php foreach ($this->users as $u) { ?>
+                <?php foreach ($this->users as $u) {
+                    $driver = $u->getDriver();
+                    ?>
                     <li class="app-list-item">
                         <span class="app-list-item__graphic"><span class="material-symbols-sharp">person</span></span>
                         <span class="app-list-item__body">
                             <span class="app-list-item__body--line1"><?=$u->name?></span>
-                            <span class="app-list-item__body--line2">@<?=$u->username?></span>
+                            <span class="app-list-item__body--line2">
+                                <span class="list-details"><span class="material-symbols-sharp">alternate_email</span><?=$u->username?></span>
+                                <?php if(!empty($driver)){?>
+                                <span class="list-details"><span class="material-symbols-sharp">badge</span> <a href="<?=$this->url('application', ['controller'=>'driver','action'=>'edit'],['query'=>['id'=>$driver->id]])?>"><?=$driver->name?></a></span>
+                                <?php }?>
+                            </span>
                         </span>
                         <span class="app-list-item__controls">
                             <a href="<?=$this->url('application', ['controller'=>'user','action'=>'edit'],['query'=>['id'=>$u->id]])?>"

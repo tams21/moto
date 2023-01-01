@@ -27,7 +27,8 @@ class UserTable extends AbstractTable
     {
         $data = $model->getArrayCopy();
         unset($data['id']);
-        return $this->insertRecord($data);
+        $this->insertRecord($data);
+        return $this->getTableGateway()->getLastInsertValue();
     }
 
     /**

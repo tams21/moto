@@ -2,9 +2,12 @@
 
 namespace Application\Controller;
 
+use Application\Model\Driver;
+use Application\Model\DriverTable;
 use Application\Model\Pagination;
 use Application\Model\User;
 use Application\Model\UserTable;
+use Laminas\Db\Sql\Join;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -13,17 +16,27 @@ class UserController extends AbstractActionController
 
     const ITEMS_PER_PAGE = 10;
     private UserTable $userTable;
+    private DriverTable $driverTable;
 
-    public function __construct(UserTable $userTable)
+    public function __construct(UserTable $userTable, DriverTable $driverTable)
     {
         $this->userTable = $userTable;
+        $this->driverTable = $driverTable;
     }
 
     public function ListAction()
     {
         $page = $this->params()->fromQuery('page', 1);
         $viewData = [];
-        $usersResult = $this->userTable->fetchAllPaginated($page, self::ITEMS_PER_PAGE);
+        $usersResult = $this->userTable->fetchAllPaginated(
+            $page,
+            self::ITEMS_PER_PAGE,
+            function($select) {
+                $select->join(
+                    ['d'=>'drivers'],
+                    "d.id={$this->userTable->getTableGateway()->getTable()}.driver_id",
+                    ['driver_name'=>'name','driver_office_id'=>'office_id','drivert_vehicle_id'=>'vehicle_id'], Join::JOIN_LEFT);
+            });
         $users = [];
         foreach ($usersResult as $u) {
             $users[] = $u;
@@ -53,6 +66,14 @@ class UserController extends AbstractActionController
             $viewData = [];
             $viewData['title'] = 'Редакция на потребител';
             $viewData['model'] = $user;
+            $drivers = $this->getDrivers();
+            if ($user->driver_id) {
+                $currentDriver = $this->driverTable->fetchById($user->driver_id);
+                if ($currentDriver) {
+                    $drivers[] = $currentDriver;
+                }
+            }
+            $viewData['drivers'] = $drivers;
             $viewData['backlink'] = $backLink;
             $this->layout()->setVariable('backlink', $backLink);
             $view = new ViewModel($viewData);
@@ -83,6 +104,7 @@ class UserController extends AbstractActionController
             $viewData = [];
             $viewData['title'] = 'Добавяне на нов потребител';
             $viewData['model'] = null;
+            $viewData['drivers'] = $this->getDrivers();
             $viewData['backlink'] = $backLink;
             $this->layout()->setVariable('backlink', $backLink);
             $view = new ViewModel($viewData);
@@ -91,6 +113,16 @@ class UserController extends AbstractActionController
         }
 
         $postedData = $this->params()->fromPost();
+
+        if ($postedData['role'] === 'driver') {
+            if ($postedData['driver_id'] === '') {
+                $driver = new Driver(['name' => $postedData['name'], 'office_id' => null, 'vehicle_id' => null]);
+                $postedData['driver_id'] = $this->driverTable->insert($driver);
+            } else {
+                $postedData['driver_id'] = null;
+            }
+        }
+
         $newUser = new User($postedData);
         $newUser->exchangeArray($postedData);
 
@@ -168,5 +200,18 @@ class UserController extends AbstractActionController
             $this->flashMessenger()->addErrorMessage("Възникна проблем при запис на паролата.");
             return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'setCustomPass'],['query'=>['id'=>$id]]);
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function getDrivers(): array
+    {
+        $driversSet = $this->driverTable->fetchAllNotAddedToUser();
+        $drivers = [];
+        foreach ($driversSet as $v) {
+            $drivers[] = $v;
+        }
+        return $drivers;
     }
 }
