@@ -279,7 +279,7 @@ a:active, a:hover {
 }
 
 .page {
-    margin: 1rem;
+    margin: 1rem 1rem 6rem;
 }
 
 
@@ -523,3 +523,73 @@ button:active, .button:active {
     color: var(--text-onprimary-color);
 }
 
+
+.info-header {
+    border-bottom: 1px solid var(--text-disabled-color);
+    margin: 0 0.5rem 1rem;
+    padding-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.info-header h3 {
+    color: var(--primary-dark-color);
+    margin: 0 0 0.5rem;
+}
+
+.head-panel {
+    background-color: var(--primary-dark-color);
+    color: var(--text-onprimary-color);
+    border-radius: 0 0 0.5rem 0.5rem;
+    width: max-content;
+    margin: -1rem auto 0;
+    display: flex;
+}
+
+.head-label {
+    padding: 1.25rem;
+    line-height: 1.5rem;
+    font-size: 1.25rem;
+}
+
+.horizontal-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: max-content;
+    margin: 0.5rem 0;
+    padding: 0.25rem 1rem;
+}
+
+.horizontal-menu li {
+    width: max-content;
+}
+
+.horizontal-menu li a:visited,
+.horizontal-menu li a {
+    display: block;
+    padding: 0.5rem;
+    color: var(--text-onprimary-color);
+}
+.horizontal-menu li.--selected {
+
+}
+.horizontal-menu li.--selected a {
+    color: var(--accent-color);
+}
+
+@media screen and (max-width: 380px) {
+    .head-panel {
+        flex-direction: column;
+    }
+
+    .head-label {
+        padding: 0.5rem 0.5rem 0;
+        margin: 0 auto;
+    }
+
+    .horizontal-menu {
+        padding: 0.25rem;
+        margin: 0;
+    }
+}

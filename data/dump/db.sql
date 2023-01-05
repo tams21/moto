@@ -154,9 +154,17 @@ CREATE TABLE `refueling` (
   `odometer` int DEFAULT NULL,
   `cost` decimal(10,2) DEFAULT NULL,
   `quantity` decimal(10,2) DEFAULT NULL,
+  `vehicle_id` int NOT NULL,
+  `fuel_id` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+alter table refueling
+    add vehicle_id int not null;
+
+create index vehicle_id
+    on refueling (vehicle_id);
+
 
 --
 -- Dumping data for table `refueling`

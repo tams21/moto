@@ -15,7 +15,7 @@ class Refueling extends \ArrayObject
         $this->id=$input["id"];
         $this->date_refueling=$input["date_refueling"];
         $this->odometer=$input["odometer"];
-        $this->role=$input["cost"];
+        $this->cost=$input["cost"];
         $this->quantity=$input["quantity"];
     }
 }

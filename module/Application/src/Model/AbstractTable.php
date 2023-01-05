@@ -21,9 +21,9 @@ class AbstractTable
         return $this->tableGateway;
     }
 
-    public function fetchAll()
+    public function fetchAll($filter=null)
     {
-        return $this->getTableGateway()->select();
+        return $this->getTableGateway()->select($filter);
     }
 
     public function fetchAllPaginated(int $page=1, int $onPage=20, $filter = null): ResultSetInterface

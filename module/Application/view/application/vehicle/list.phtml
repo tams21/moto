@@ -16,6 +16,12 @@ $this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
                             <span class="app-list-item__body--line2"><?=$m->color?> <?=$m->model?> (<?=$m->year_manufactured?>)</span>
                         </span>
                         <span class="app-list-item__controls">
+                            <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'fueling'],['query'=>['vehicleId'=>$m->id]])?>"
+                               class="icon-button" title="Зареждане на гориво">local_gas_station</a>
+                            <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'maintenance'],['query'=>['vehicleId'=>$m->id]])?>"
+                               class="icon-button" title="Периодична поддръжка">calendar_month</a>
+                             <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'repair'],['query'=>['vehicleId'=>$m->id]])?>"
+                                class="icon-button" title="Ремонти">build</a>
                             <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'edit'],['query'=>['id'=>$m->id]])?>"
                                class="icon-button">edit</a>
                             <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'delete'],['query'=>['id'=>$m->id]])?>"

@@ -1,5 +1,5 @@
 .vehicle-list {
-    max-width:460px;
+    max-width:500px;
     margin: 1rem auto;
 }
 
@@ -40,4 +40,9 @@
 
 #fuel_list li span:first-child {
     flex: 1;
+}
+
+.list-panel {
+    max-width: 500px;
+    margin: 0 auto;
 }

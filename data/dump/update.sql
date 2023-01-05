@@ -34,7 +34,7 @@ alter table vehicles
 alter table vehicles
     add notes text null;
 
-create table moto.vehicle_fuel
+create table vehicle_fuel
 (
     vehicle_id int not null,
     fuel_id    int not null,
@@ -49,3 +49,16 @@ alter table drivers
 
 alter table users
     add driver_id int null;
+
+
+# 2023-01-05 - refuling
+alter table refueling
+    add fuel_id int not null;
+alter table refueling
+    add vehicle_id int not null;
+
+create index vehicle_id
+    on refueling (vehicle_id);
+create index fuel
+    on refueling (fuel_id);
+

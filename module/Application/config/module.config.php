@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Application;
 
+use Application\ViewHelper\DateFormat;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use Laminas\Db\Adapter\AdapterInterface;
@@ -200,8 +201,15 @@ return [
             
             
         ]
-    ]
-   ,
+    ],
+    'view_helpers' => [
+        'factories' => [
+            DateFormat::class => ReflectionBasedAbstractFactory::class,
+        ],
+        'aliases' => [
+            'DateFormat' => DateFormat::class,
+        ]
+    ],
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

@@ -14,12 +14,11 @@ function app_ready() {
     });
 }
 
-app_ready().then(()=>{
-    const drawerToggle = document.querySelector('.app-drawer-toggle');
+function prepDrawerAction(drawerToggle, drawer) {
+
     if (!drawerToggle) {
         return;
     }
-    const drawer = document.querySelector(drawerToggle.dataset.target);
     drawerToggle.addEventListener('click', ()=>{
         drawer.classList.toggle('--opened');
     });
@@ -28,24 +27,36 @@ app_ready().then(()=>{
         if (e.target.closest('.app-drawer-surface')
             || e.target.closest('.app-drawer-toggle')
             || !drawer.classList.contains('--opened')) {
-                return;
+            return;
         }
         drawer.classList.remove('--opened');
     });
+}
+
+app_ready().then(()=>{
+    const drawerToggle = document.querySelector('.app-drawer-toggle');
+    const drawer = document.querySelector('#appDrawer');
+    prepDrawerAction(drawerToggle, drawer);
 
     setDrawerOnResize = function() {
-        if (window.innerWidth > 900){
-            if (drawer.classList.contains('app-drawer--fixed')) {return;}
+        if (window.innerWidth > 900) {
+            if (drawer.classList.contains('app-drawer--fixed')) {
+                return;
+            }
             drawer.classList.remove('app-drawer--normal');
             drawer.classList.add('app-drawer--fixed');
-            drawerToggle.style.display = 'none';
+            if (drawerToggle) {
+                drawerToggle.style.display = 'none';
+            }
             return;
         }
 
         if(drawer.classList.contains('app-drawer--normal')) {return;}
         drawer.classList.remove('app-drawer--fixed');
         drawer.classList.add('app-drawer--normal');
-        drawerToggle.style.display = 'block';
+        if (drawerToggle) {
+            drawerToggle.style.display = 'block';
+        }
 
     }
 

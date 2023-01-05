@@ -2,16 +2,36 @@
 namespace Application\Model;
 use Laminas\Db\TableGateway\TableGatewayInterface;
 
-class RefuelingTable
+class RefuelingTable extends AbstractTable
 {
-    private $tableGateway;
-    public function __construct(TableGatewayInterface $tableGateway)
+    /**
+     * @param Refueling $model
+     * @return int
+     */
+    public function insert(Refueling $model) :int
     {
-        $this->tableGateway=$tableGateway;
+        $data = $model->getArrayCopy();
+        unset($data['id']);
+        $this->insertRecord($data);
+        return $this->getTableGateway()->getLastInsertValue();
     }
-    public function fetchAll()
+
+    public function update(Refueling $model) :int
     {
-        return $this->tableGateway->select();
+        $data = $model->getArrayCopy();
+        $id =  $model->id;
+        unset($data['id']);
+        $status = $this->updateRecord($data, ['id' => $id]);
+        return $status;
+    }
+
+    /**
+     * @param Refueling $model
+     * @return int
+     */
+    public function delete(Refueling $model) :int
+    {
+        return $this->deleteRecord(['id' => $model->id]);
     }
 }
 

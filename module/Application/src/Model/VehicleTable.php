@@ -116,6 +116,5 @@ class VehicleTable extends AbstractTable
         }
         return $status??1;
     }
-
 }
 
