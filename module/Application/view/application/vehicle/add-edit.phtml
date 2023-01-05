@@ -26,11 +26,11 @@ $this->headScript()->appendFile($this->basePath('script/vehicle.js'));
                 <div class="form-list">
                     <h3>Гориво</h3>
                     <ul id="fuel_list">
-                        <?php foreach($this->model->getFuels() as $f) {?>
+                        <?php if (!empty ($this->model)){foreach($this->model->getFuels() as $f) {?>
                             <li><span><?=$this->fuels[$f]->name?></span>
                                 <input type="hidden" name="fuel[]" value="<?=$f?>">
                             <span class="material-symbols-sharp remove-item">close</span></li>
-                        <?php } ?>
+                        <?php }} ?>
                     </ul>
                     <div class="form-field-wrapper"><label for="inp-fuel">Добавяне на гориво</label>
                         <select id="inp-fuel">
