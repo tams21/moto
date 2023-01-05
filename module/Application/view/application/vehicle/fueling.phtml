@@ -6,15 +6,7 @@ $this->headTitle($this->title);
 $this->headTitle('Авто парк');
 $this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
 ?><div class="page">
-    <div class="head-panel">
-        <span class="head-label"><?=$this->vehicle->reg_nomer?></span>
-        <ul class="horizontal-menu">
-            <li<?=$this->action === 'fueling' ? ' class="--selected"' : ''?>><a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'fueling'],['query'=>['id'=>$this->vehicle->id]])?>" class="icon-button">local_gas_station</a></li>
-            <li><a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'maintenance'],['query'=>['id'=>$this->vehicle->id]])?>" class="icon-button">calendar_month</a></li>
-            <li><a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'repair'],['query'=>['id'=>$this->vehicle->id]])?>" class="icon-button">build</a></li>
-            <li><a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'edit'],['query'=>['id'=>$this->vehicle->id]])?>" class="icon-button">edit</a></li>
-        </ul>
-    </div>
+    <?=$this->partial('application/vehicle/_head-panel.phtml')?>
     <div class="list-panel">
         <?php if (!empty($this->models)) {?>
             <ul class="app-list fueling-list">

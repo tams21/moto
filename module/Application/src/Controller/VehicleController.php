@@ -3,11 +3,15 @@
 namespace Application\Controller;
 
 use Application\Model\FuelTable;
+use Application\Model\MaintenanceSchedule;
+use Application\Model\MaintenanceScheduleTable;
+use Application\Model\MaintenanceTable;
 use Application\Model\Pagination;
 use Application\Model\Refueling;
 use Application\Model\RefuelingTable;
 use Application\Model\Vehicle;
 use Application\Model\VehicleTable;
+use Laminas\Db\Sql\Join;
 use Laminas\View\Model\ViewModel;
 
 class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
@@ -17,12 +21,21 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
     private VehicleTable $vehicleTable;
     private FuelTable $fuelTable;
     private RefuelingTable $refuelingTable;
+    private MaintenanceScheduleTable $maintenanceScheduleTable;
+    private MaintenanceTable $maintenanceTable;
 
-    public function __construct(VehicleTable $vehicleTable, FuelTable $fuelTable, RefuelingTable $refuelingTable)
+    public function __construct(
+        VehicleTable $vehicleTable,
+        FuelTable $fuelTable,
+        RefuelingTable $refuelingTable,
+        MaintenanceTable $maintenanceTable,
+        MaintenanceScheduleTable $maintenanceScheduleTable)
     {
         $this->vehicleTable = $vehicleTable;
         $this->fuelTable = $fuelTable;
         $this->refuelingTable = $refuelingTable;
+        $this->maintenanceTable = $maintenanceTable;
+        $this->maintenanceScheduleTable = $maintenanceScheduleTable;
     }
 
     public function ListAction()
@@ -165,6 +178,21 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             $fuels[$item->id] = $item;
         }
         return $fuels;
+    }
+
+    /**
+     * @param Vehicle|null $vehicle
+     * @return array
+     */
+    private function getMaintenance(): array
+    {
+        $maintenanceResultSet = $this->maintenanceTable->fetchAll();
+
+        $maintenances = [];
+        foreach ($maintenanceResultSet as $item) {
+            $maintenances[$item->id] = $item;
+        }
+        return $maintenances;
     }
 
     public function FuelingAction()
@@ -336,4 +364,172 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
         $this->flashMessenger()->addErrorMessage("Успешно изтритo зареждане '{$model->quantity}'!");
         return $this->redirect()->toUrl($backLink);
     }
+
+    public function MaintenanceScheduleAction()
+    {
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'list']);
+        $page = $this->params()->fromQuery('page', 1);
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        $viewData = [];
+        $vehicle = $this->vehicleTable->fetchById($vehicleId);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        $schedulesResult = $this->maintenanceScheduleTable->fetchAllPaginated(
+            $page,
+            self::ITEMS_PER_PAGE,
+            function ($select) use ($vehicleId) {
+                $select->join(
+                    ['d'=>'maintenance'],
+                    "d.id={$this->maintenanceScheduleTable->getTableGateway()->getTable()}.maintenance_id",
+                    ['maintenance_name'=>'name'], Join::JOIN_LEFT);
+                $select->where("vehicle_id={$vehicleId}");
+            });
+
+        $models = [];
+        foreach ($schedulesResult as $u) {
+            $models[] = $u;
+        }
+        $totalNumberOfRows = $this->maintenanceScheduleTable->getLastFoundRows();
+
+        $pagination = new Pagination($page, ceil($totalNumberOfRows / self::ITEMS_PER_PAGE));
+
+        $viewData['action'] = 'maintenanceSchedule';
+        $viewData['models'] = $models;
+        $viewData['title'] = 'Графици за поддръжка';
+        $viewData['vehicle'] = $vehicle;
+        $viewData['backlink'] = $backLink;
+        $this->layout()->setVariable('backlink', $backLink);
+        $viewData['pagination'] = $pagination;
+        return new ViewModel($viewData);
+    }
+
+    public function AddMaintenanceScheduleAction()
+    {
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'maintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        /** @var Vehicle $vehicle */
+        $vehicle = $this->vehicleTable->fetchByIdWithFuel($vehicleId);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        $maintenances = $this->getMaintenance();
+        if (!$this->getRequest()->isPost()) {
+            $viewData = [];
+            $viewData['title'] = 'Добавяне на график за поддръжка';
+            $viewData['vehicle'] = $vehicle;
+            $viewData['model'] = null;
+            $viewData['maintenances'] = $maintenances;
+            $viewData['backlink'] = $backLink;
+            $this->layout()->setVariable('backlink', $backLink);
+            $view = new ViewModel($viewData);
+            $view->setTemplate('application/vehicle/add-edit_maintenance-schedule.phtml');
+            return $view;
+        }
+
+
+        $postedData = $this->params()->fromPost();
+
+        $newMaintenanceSchedule = new MaintenanceSchedule($postedData);
+        $newMaintenanceSchedule->exchangeArray($postedData);
+
+        try {
+            $this->maintenanceScheduleTable->insert($newMaintenanceSchedule);
+        } catch (\Exception $e) {
+            var_dump($e);
+            $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
+            return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addMaintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
+        }
+
+        $this->flashMessenger()->addErrorMessage("Успешно добавено график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
+        return $this->redirect()->toUrl($backLink);
+    }
+    public function EditMaintenanceScheduleAction()
+    {
+        $id = $this->params()->fromQuery('id', 1);
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'maintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        /** @var Vehicle $vehicle */
+        $vehicle = $this->vehicleTable->fetchByIdWithFuel($vehicleId);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        $maintenanceSchedule = $this->maintenanceScheduleTable->fetchById($id);
+
+        $maintenances = $this->getMaintenance();
+
+        if (!$this->getRequest()->isPost()) {
+            $viewData = [];
+            $viewData['title'] = 'Редакция на график за поддръжка';
+            $viewData['vehicle'] = $vehicle;
+            $viewData['model'] = $maintenanceSchedule;
+            $viewData['maintenances'] = $maintenances;
+            $viewData['backlink'] = $backLink;
+            $this->layout()->setVariable('backlink', $backLink);
+            $view = new ViewModel($viewData);
+            $view->setTemplate('application/vehicle/add-edit_maintenance-schedule.phtml');
+            return $view;
+        }
+
+
+        $postedData = $this->params()->fromPost();
+
+        $newMaintenanceSchedule = new MaintenanceSchedule($postedData);
+        $newMaintenanceSchedule->exchangeArray($postedData);
+
+        try {
+            $this->maintenanceScheduleTable->update($newMaintenanceSchedule);
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
+            return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addMaintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
+        }
+
+        $this->flashMessenger()->addErrorMessage("Успешно редактиран график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
+        return $this->redirect()->toUrl($backLink);
+    }
+
+    public function DeleteMaintenanceScheduleAction()
+    {
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        $id = $this->params()->fromQuery('id', 1);
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'maintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
+
+        try {
+            $model = $this->maintenanceScheduleTable->fetchById($id);
+        } catch (\Error $e) {}
+
+        if (empty($model)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е открита!');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        try {
+            $this->maintenanceScheduleTable->delete($model);
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('Възникна проблем със изтриването на записа.');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        $maintenances = $this->getMaintenance();
+
+        $this->flashMessenger()->addErrorMessage("Успешно изтрит график за поддръжка '{$maintenances[$model->maintenance_id]->name}'!");
+        return $this->redirect()->toUrl($backLink);
+    }
+
 }

@@ -1,0 +1,42 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
+$this->headScript()->appendFile($this->basePath('script/vehicle.js'));
+?><div class="page">
+    <div class="form-panel">
+        <div class="info-header">
+            <h3><?=$this->vehicle->reg_nomer?></h3>
+            <span><?=$this->vehicle->model?></span>
+            <span><?=$this->vehicle->color?></span>
+            <span>(<?=$this->vehicle->year_manufactured?>)</span>
+        </div>
+        <form action="" method="post">
+            <input type="hidden" name="id" value="<?=$this->model->id??''?>">
+            <input type="hidden" name="vehicle_id" value="<?=$this->vehicle->id??''?>">
+            <div class="form-fields">
+                <div class="form-field-wrapper"><label for="inp-maintenance_id">Вид поддръжка</label>
+                    <select id="inp-maintenance_id" name="maintenance_id">
+                        <?php foreach($this->maintenances??[] as $f) {?>
+                            <option value="<?=$f->id?>"><?=$f->name?></option>
+                        <?php } ?>
+                    </select></div>
+                <div class="form-field-wrapper"><label for="inp-date_refueling">Период (дни)</label>
+                    <input type="number" name="period_days" id="inp-period_days" value="<?=$this->model->period_days??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-kilometers">Пробег (км.)</label>
+                    <input type="number" name="kilometers" id="inp-kilometers" value="<?=$this->model->kilometers??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-notify_days_before">Предупреждение (дни преди изтичане)</label>
+                    <input type="number" name="notify_days_before" id="inp-notify_days_before" value="<?=$this->model->notify_days_before??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-notify_kilometers_before">Предупреждение (км. преди изтичане)</label>
+                    <input type="number" name="notify_kilometers_before" id="inp-notify_kilometers_before" value="<?=$this->model->notify_kilometers_before??''?>"></div>
+            </div>
+
+            <div class="form-controls">
+                <a class="button" href="<?=$this->backlink?>"><span class="material-symbols-sharp">arrow_back</span> Назад</a>
+                <button><span class="material-symbols-sharp">save</span> Запис</button>
+            </div>
+        </form>
+    </div>
+</div>

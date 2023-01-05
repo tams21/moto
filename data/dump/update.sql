@@ -65,3 +65,28 @@ create index fuel
 # 2023-01-05 - maintenance_schedule
 rename table maintanence to maintenance;
 
+
+alter table maintanence_shadule
+    change id_vechicles vehicle_id int null;
+
+alter table maintanence_shadule
+    change id_maintenencel maintenance_id int null;
+
+rename table maintanence_shadule to maintenance_schedule;
+
+alter table maintenance_schedule
+    change `notify days before` notify_days_before int null;
+
+alter table maintenance_schedule
+    change `notify kilometers before` notify_kilometers_before int null;
+
+
+
+create index maintenance_schedule_maintenencel_id_index
+    on maintenance_schedule (maintenance_id);
+
+create index maintenance_schedule_vechicles_id_index
+    on maintenance_schedule (vehicle_id);
+
+
+

@@ -1,0 +1,57 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headTitle('Авто парк');
+$this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
+?><div class="page">
+    <?=$this->partial('application/vehicle/_head-panel.phtml')?>
+    <div class="list-panel">
+        <?php if (!empty($this->models)) {?>
+            <ul class="app-list fueling-list">
+                <?php foreach ($this->models as $m) { ?>
+                    <li class="app-list-item">
+                        <span class="app-list-item__graphic"><span class="material-symbols-sharp">calendar_month</span></span>
+                        <span class="app-list-item__body">
+                            <span class="app-list-item__body--line1"><?=$m->getMaintenance()->name?></span>
+                            <span class="app-list-item__body--line2">
+                                <span class="list-details"><span class="material-symbols-sharp">schedule</span> <?=$m->period_days?> дни</span>
+                                <span class="list-details"><span class="material-symbols-sharp">straighten</span> <?=$m->kilometers?>км.</span>
+                            </span>
+                        </span>
+                        <span class="app-list-item__controls">
+                            <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'editMaintenanceSchedule'],['query'=>['vehicleId'=>$this->vehicle->id, 'id'=>$m->id]])?>"
+                               class="icon-button">edit</a>
+                            <a href="<?=$this->url('application', ['controller'=>'vehicle','action'=>'deleteMaintenanceSchedule'],['query'=>['vehicleId'=>$this->vehicle->id, 'id'=>$m->id]])?>"
+                               class="icon-button button-require-confirmation"
+                               data-confirmation-message="Сигурни ли сте, че искате да изтриете този запис? (Операцията е необратима!)">delete</a>
+                        </span>
+                    </li>
+                <?php } ?>
+            </ul>
+            <?php
+            $firstPage = $this->pagination->firstPageToList();
+            $lastPage = $this->pagination->lastPageToList();
+            ?>
+            <?php if ($lastPage > $firstPage) { ?>
+                <div class="pagination">
+                    <?php if ($firstPage > 1) { ?>
+                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'maintenanceSchedule'], ['query'=>['vehicleId'=>$this->vehicle->id, 'page'=>1]])?>">first_page</a>
+                    <?php } ?>
+                    <?php for ($p = $firstPage; $p <= $lastPage && $p < $firstPage + 100; $p++) {?>
+                        <a class="pagination-button" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'maintenanceSchedule'], ['query'=>['vehicleId'=>$this->vehicle->id, 'page'=>$p]])?>"><?=$p?></a>
+                    <?php } ?>
+                    <?php if ($lastPage < $this->pagination->getTotalPages()) { ?>
+                        <a class="pagination-button material-symbols-sharp" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'maintenanceSchedule'], ['query'=>['vehicleId'=>$this->vehicle->id, 'page'=>$this->pagination->getTotalPages()]])?>">last_page</a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+        <?php } else { ?>
+            <div class="content-stub">
+                Няма въведени графици за <?=$this->vehicle->model?> <?=$this->vehicle->reg_nomer?>.
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<a class="fab" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'addMaintenanceSchedule'], ['query'=>['vehicleId'=>$this->vehicle->id]])?>">add</a>

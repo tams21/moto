@@ -90,31 +90,39 @@ LOCK TABLES `maintenance` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `maintanence_shadule`
+-- Table structure for table `maintenance_schedule`
 --
 
-DROP TABLE IF EXISTS `maintanence_shadule`;
+DROP TABLE IF EXISTS `maintenance_schedule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `maintanence_shadule` (
+CREATE TABLE `maintenance_schedule` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_vechicles` int DEFAULT NULL,
-  `id_maintenencel` int DEFAULT NULL,
+  `vehicle_id` int DEFAULT NULL,
+  `maintenance_id` int DEFAULT NULL,
   `period_days` int DEFAULT NULL,
   `kilometers` int DEFAULT NULL,
-  `notify days before` int DEFAULT NULL,
-  `notify kilometers before` int DEFAULT NULL,
+  `notify_days_before` int DEFAULT NULL,
+  `notify_kilometers_before` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+create index maintenance_schedule_maintenencel_id_index
+    on maintenance_schedule (maintenance_id);
+
+create index maintenance_schedule_vechicles_id_index
+    on maintenance_schedule (vehicle_id);
+
+
+
 --
--- Dumping data for table `maintanence_shadule`
+-- Dumping data for table `maintenance_schedule`
 --
 
-LOCK TABLES `maintanence_shadule` WRITE;
-/*!40000 ALTER TABLE `maintanence_shadule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `maintanence_shadule` ENABLE KEYS */;
+LOCK TABLES `maintenance_schedule` WRITE;
+/*!40000 ALTER TABLE `maintenance_schedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maintenance_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
