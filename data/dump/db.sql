@@ -70,10 +70,10 @@ UNLOCK TABLES;
 -- Table structure for table `maintanence`
 --
 
-DROP TABLE IF EXISTS `maintanence`;
+DROP TABLE IF EXISTS `maintenance`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `maintanence` (
+CREATE TABLE `maintenance` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -84,9 +84,9 @@ CREATE TABLE `maintanence` (
 -- Dumping data for table `maintanence`
 --
 
-LOCK TABLES `maintanence` WRITE;
-/*!40000 ALTER TABLE `maintanence` DISABLE KEYS */;
-/*!40000 ALTER TABLE `maintanence` ENABLE KEYS */;
+LOCK TABLES `maintenance` WRITE;
+/*!40000 ALTER TABLE `maintenance` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maintenance` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

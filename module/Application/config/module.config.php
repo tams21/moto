@@ -45,6 +45,7 @@ return [
             Controller\OfficeController::class => ReflectionBasedAbstractFactory::class,
             Controller\DriverController::class => ReflectionBasedAbstractFactory::class,
             Controller\FuelController::class => ReflectionBasedAbstractFactory::class,
+            Controller\MaintenanceController::class => ReflectionBasedAbstractFactory::class,
             Controller\UserController::class => ReflectionBasedAbstractFactory::class,
         ],
         'aliases' => [
@@ -54,6 +55,7 @@ return [
             'office' => Controller\OfficeController::class,
             'driver' => Controller\DriverController::class,
             'fuel' => Controller\FuelController::class,
+            'maintenance' => Controller\MaintenanceController::class,
             'user' => Controller\UserController::class,
         ]
     ],
@@ -97,19 +99,33 @@ return [
                 $resultSetPrototype->setArrayObjectPrototype(new Model\Office());
                 return new TableGateway('office', $dbAdapter, null, $resultSetPrototype);
             },
+
+
+            Model\MaintenanceTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\MaintanenceTableGateway::class);
+                return new Model\MaintenanceTable($tableGateway);
+            },
+            Model\MaintanenceTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Maintenance());
+                return new TableGateway('maintenance', $dbAdapter, null, $resultSetPrototype);
+            },
             
             
-            Model\MaintanenceShaduleTable::class=>function ($container)
+            Model\MaintenanceScheduleTable::class=>function ($container)
             {
                 $tableGateway=$container->get(Model\MaintanenceShaduleTableGateway::class);
-                return new Model\MaintanenceShaduleTable($tableGateway);
+                return new Model\MaintenanceScheduleTable($tableGateway);
             },
             Model\MaintanenceShaduleTableGateway::class=>function ($container)
             {
                 $dbAdapter=$container->get(AdapterInterface::class);
                 $resultSetPrototype=new ResultSet();
-                $resultSetPrototype->setArrayObjectPrototype(new Model\MaintanenceShadule());
-                return new TableGateway('maintanence_shadule', $dbAdapter, null, $resultSetPrototype);
+                $resultSetPrototype->setArrayObjectPrototype(new Model\MaintenanceSchedule());
+                return new TableGateway('maintenance_schedule', $dbAdapter, null, $resultSetPrototype);
             },
             
             Model\RapairTable::class=>function ($container)

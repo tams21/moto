@@ -51,7 +51,7 @@ alter table users
     add driver_id int null;
 
 
-# 2023-01-05 - refuling
+# 2023-01-05 - refueling
 alter table refueling
     add fuel_id int not null;
 alter table refueling
@@ -61,4 +61,7 @@ create index vehicle_id
     on refueling (vehicle_id);
 create index fuel
     on refueling (fuel_id);
+
+# 2023-01-05 - maintenance_schedule
+rename table maintanence to maintenance;
 
