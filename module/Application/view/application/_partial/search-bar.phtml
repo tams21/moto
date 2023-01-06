@@ -1,0 +1,7 @@
+<div class="search-bar<?=empty($this->term)?'':' --has-value'?>">
+    <form method="get" >
+        <label class="search-field">
+            <input type="text" name="term" id="search-field" value="<?=$this->term??''?>"></label>
+        <a href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'list'])?>" class="material-symbols-sharp search-clear">close</a>
+    </form>
+</div>

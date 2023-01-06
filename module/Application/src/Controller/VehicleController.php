@@ -40,9 +40,16 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
 
     public function ListAction()
     {
+        $searchTerm = $this->params()->fromQuery('term', null);
         $page = $this->params()->fromQuery('page', 1);
         $viewData = [];
-        $vehicleResult = $this->vehicleTable->fetchAllPaginated($page, self::ITEMS_PER_PAGE);
+        $vehicleResult = $this->vehicleTable->fetchAllPaginated(
+            $page,
+            self::ITEMS_PER_PAGE,
+            empty($searchTerm) ? null : function ($select) use ($searchTerm) {
+                $select->where("reg_nomer LIKE '%{$searchTerm}%' OR model LIKE '%{$searchTerm}%' OR color LIKE '%{$searchTerm}%' OR notes LIKE '%{$searchTerm}%' OR year_manufactured LIKE '%{$searchTerm}%'");
+            }
+        );
         $models = [];
         foreach ($vehicleResult as $u) {
             $models[] = $u;
@@ -52,6 +59,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
         $pagination = new Pagination($page, ceil($totalNumberOfRows / self::ITEMS_PER_PAGE));
 
         $viewData['models'] = $models;
+        $viewData['term'] = $searchTerm;
         $viewData['pagination'] = $pagination;
         return new ViewModel($viewData);
     }

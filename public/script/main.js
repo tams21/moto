@@ -85,4 +85,17 @@ app_ready().then(()=>{
             e.preventDefault();
         }
     })
+
+    const searchBar = document.querySelector('.search-bar');
+    const searchField = document.querySelector('#search-field');
+    if (searchBar && searchField) {
+        const searchBlur = ()=>{
+            if(searchField.value === '') {
+                searchBar.classList.remove('--has-value');
+            } else {
+                searchBar.classList.add('--has-value');
+            }
+        }
+        searchField.addEventListener('blur', searchBlur);
+    }
 });
