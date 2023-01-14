@@ -341,6 +341,12 @@ CREATE TABLE `vehicles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `reg_nomer_UNIQUE` (`reg_nomer`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+create view fuel_report as
+    select v.*, f.id as fuel_id, f.name, r.date_refueling, r.odometer as refuling_odometer, r.cost, r.quantity from vehicles v
+        JOIN refueling as r on v.id = r.vehicle_id
+        JOIN fuel as f on f.id = r.fuel_id;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

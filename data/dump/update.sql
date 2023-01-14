@@ -89,4 +89,10 @@ create index maintenance_schedule_vechicles_id_index
     on maintenance_schedule (vehicle_id);
 
 
+# 2023-01-15 - Fuel_report View
+create view fuel_report as
+    select v.*, f.id as fuel_id, f.name, r.date_refueling, r.odometer as refuling_odometer, r.cost, r.quantity from vehicles v
+        JOIN refueling as r on v.id = r.vehicle_id
+        JOIN fuel as f on f.id = r.fuel_id;
+
 

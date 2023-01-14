@@ -1,0 +1,30 @@
+.report-list {
+    margin: 0 auto;
+    max-width: 550px;
+}
+
+.report-wrapper {
+
+}
+
+.report-tbl {
+    border: 1px solid #0004;
+    border-collapse: collapse;
+}
+
+.report-tbl tr {
+
+}
+
+.report-tbl tr th {
+    border: 1px solid #0004;
+    padding: 0.25rem 0.5rem;
+}
+
+.report-tbl tr td {
+    border-bottom: 1px solid #0004;
+    padding: 0.25rem 0.5rem;
+}
+.report-tbl tr:nth-child(odd) td {
+    background-color: #0001;
+}

@@ -1,0 +1,29 @@
+<table class="report-tbl">
+    <thead>
+    <tr>
+        <th colspan="3">Vehicle</th>
+        <th rowspan="2">Type of Fuel</th>
+        <th colspan="2">Odometer</th>
+        <th rowspan="2">Mileage for the period</th>
+        <th colspan="1" rowspan="2">Loaded fuel</th>
+        <th colspan="1" rowspan="2">Consumption per 100 km.</th>
+    </tr>
+    <tr>
+        <th>model</th>
+        <th>year man.</th>
+        <th>№</th>
+        <th>at the beginning</th>
+        <th>at the end</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->data as $r) { ?>
+        <tr>
+            <?php foreach ($r as $d) { ?>
+            <td><?=$d?></td>
+            <?php } ?>
+        </tr>
+    <?php } ?>
+    </tbody>
+</table>

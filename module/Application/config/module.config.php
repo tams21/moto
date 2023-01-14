@@ -42,6 +42,7 @@ return [
             Controller\IndexController::class => ReflectionBasedAbstractFactory::class,
             Controller\AuthController::class => ReflectionBasedAbstractFactory::class,
             Controller\VehicleController::class => ReflectionBasedAbstractFactory::class,
+            Controller\ReportController::class => ReflectionBasedAbstractFactory::class,
             Controller\OfficeController::class => ReflectionBasedAbstractFactory::class,
             Controller\DriverController::class => ReflectionBasedAbstractFactory::class,
             Controller\FuelController::class => ReflectionBasedAbstractFactory::class,
@@ -52,6 +53,7 @@ return [
             'index' => Controller\IndexController::class,
             'auth' => Controller\AuthController::class,
             'vehicle' => Controller\VehicleController::class,
+            'report' => Controller\ReportController::class,
             'office' => Controller\OfficeController::class,
             'driver' => Controller\DriverController::class,
             'fuel' => Controller\FuelController::class,
@@ -214,8 +216,19 @@ return [
                 $resultSetPrototype->setArrayObjectPrototype(new Model\VehicleFuel());
                 return new TableGateway('vehicle_fuel', $dbAdapter, null, $resultSetPrototype);
             },
-            
-            
+
+            Model\FuelReportView::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\FuelReportViewGateway::class);
+                return new Model\FuelReportView($tableGateway);
+            },
+            Model\FuelReportViewGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\FuelReport());
+                return new TableGateway('fuel_report', $dbAdapter, null, $resultSetPrototype);
+            },
         ]
     ],
     'view_helpers' => [

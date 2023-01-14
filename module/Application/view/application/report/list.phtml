@@ -1,0 +1,22 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle('Докалди');
+$this->headLink()->appendStylesheet($this->basePath('style/report.css'));
+?><div class="page">
+    <div class="list-panel">
+        <ul class="app-list report-list">
+            <li class="app-list-item">
+                <span class="app-list-item__graphic"><span class="material-symbols-sharp">local_gas_station</span></span>
+                <span class="app-list-item__body">
+                    <span class="app-list-item__body--line1">Справка за гориво и пробег по автомобили</span>
+                </span>
+                <span class="app-list-item__controls">
+                    <a href="<?=$this->url('application', ['controller'=>'report', 'action'=>'fuel'])?>"
+                       class="icon-button">arrow_forward</a>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
