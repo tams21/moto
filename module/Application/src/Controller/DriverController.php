@@ -111,7 +111,7 @@ class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'driver', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран шофьор '{$driver->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран шофьор '{$driver->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -143,7 +143,7 @@ class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'driver', 'action'=>'add']);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавен шофьор '{$newDriver->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен шофьор '{$newDriver->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -166,7 +166,7 @@ class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит шофьор '{$model->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит шофьор '{$model->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
