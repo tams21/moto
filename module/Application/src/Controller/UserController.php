@@ -82,12 +82,15 @@ class UserController extends AbstractActionController
         }
 
         $postedData = $this->params()->fromPost();
+        if (empty($postedData['driver_id'])) {
+            $postedData['driver_id'] = null;
+        }
         $newUser = new User($postedData);
         $newUser->exchangeArray($postedData);
 
         try {
             $this->userTable->update($newUser);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { var_dump($e);
             $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
             return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
