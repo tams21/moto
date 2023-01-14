@@ -95,7 +95,7 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран потребител @{$user->username}!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран потребител @{$user->username}!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -136,7 +136,7 @@ class UserController extends AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'edit']);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавен потребител @{$newUser->username}!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен потребител @{$newUser->username}!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -159,7 +159,7 @@ class UserController extends AbstractActionController
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит потребител @{$user->username}!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит потребител @{$user->username}!");
         return $this->redirect()->toUrl($backLink);
     }
 
