@@ -1,5 +1,5 @@
 .vehicle-list {
-    max-width:500px;
+    max-width: max-content;
     margin: 1rem auto;
 }
 

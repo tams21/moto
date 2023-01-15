@@ -661,9 +661,9 @@ button:active, .button:active {
 
 
 .search-bar {
-    margin-top: -4rem;
     z-index: 7;
     right: 0.5rem;
+    top: 0.125rem;
     position: absolute;
 }
 

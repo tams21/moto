@@ -1,4 +1,4 @@
 .fuel-list {
-    max-width:460px;
+    max-width: max-content;
     margin: 1rem auto;
 }
