@@ -87,7 +87,7 @@ class AuthController extends AbstractActionController
             $this->session['auth']['trys']++;
         }
 
-        $this->flashMessenger()->addSuccessMessage('Невалидно потребителско име или парола');
+        $this->flashMessenger()->addErrorMessage('Невалидно потребителско име или парола');
         return $this->redirect()->toRoute('application', ['controller'=>'auth','action'=>'login'], [], true);
     }
     public function LogoutAction() {
