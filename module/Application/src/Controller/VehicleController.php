@@ -105,7 +105,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран автомобил '{$vehicle->reg_nomer}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран автомобил '{$vehicle->reg_nomer}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -139,7 +139,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'add']);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавен автомобил '{$newVehicle->reg_nomer}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен автомобил '{$newVehicle->reg_nomer}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -162,7 +162,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит автомобил '{$model->reg_nomer}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит автомобил '{$model->reg_nomer}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -286,7 +286,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
              return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addFueling'], ['query'=>['vehicleId'=>$vehicleId]]);
          }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавено зареждане '{$newRefueling->quantity}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавено зареждане '{$newRefueling->quantity}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -342,7 +342,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addFueling'], ['query'=>['vehicleId'=>$vehicleId]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактирано зареждане '{$newRefueling->quantity}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактирано зареждане '{$newRefueling->quantity}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -369,7 +369,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтритo зареждане '{$model->quantity}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтритo зареждане '{$model->quantity}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -455,12 +455,11 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
         try {
             $this->maintenanceScheduleTable->insert($newMaintenanceSchedule);
         } catch (\Exception $e) {
-            var_dump($e);
             $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
             return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addMaintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавено график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавено график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
     public function EditMaintenanceScheduleAction()
@@ -508,7 +507,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addMaintenanceSchedule'], ['query'=>['vehicleId'=>$vehicleId]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -536,7 +535,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
 
         $maintenances = $this->getMaintenance();
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит график за поддръжка '{$maintenances[$model->maintenance_id]->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит график за поддръжка '{$maintenances[$model->maintenance_id]->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 

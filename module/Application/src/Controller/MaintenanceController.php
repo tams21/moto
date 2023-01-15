@@ -76,7 +76,7 @@ class MaintenanceController extends \Laminas\Mvc\Controller\AbstractActionContro
             return $this->redirect()->toRoute('application', ['controller'=>'maintenance', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран вид поддръжка '{$fuel->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран вид поддръжка '{$fuel->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -103,12 +103,11 @@ class MaintenanceController extends \Laminas\Mvc\Controller\AbstractActionContro
         try {
             $this->maintenanceTable->insert($newMaintenance);
         } catch (\Exception $e) {
-            var_dump($e);
             $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
             return $this->redirect()->toRoute('application', ['controller'=>'maintenance', 'action'=>'add']);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавен вид поддръжка '{$newMaintenance->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен вид поддръжка '{$newMaintenance->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -131,7 +130,7 @@ class MaintenanceController extends \Laminas\Mvc\Controller\AbstractActionContro
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит вид поддръжка '{$model->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит вид поддръжка '{$model->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 

@@ -74,7 +74,7 @@ class OfficeController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'office', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран офис '{$office->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран офис '{$office->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -105,7 +105,7 @@ class OfficeController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'office', 'action'=>'add']);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавен офис '{$newOffice->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен офис '{$newOffice->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -128,7 +128,7 @@ class OfficeController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит офис '{$model->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит офис '{$model->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 

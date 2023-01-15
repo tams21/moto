@@ -74,7 +74,7 @@ class FuelController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'fuel', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно редактиран вид гориво '{$fuel->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран вид гориво '{$fuel->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -105,7 +105,7 @@ class FuelController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toRoute('application', ['controller'=>'fuel', 'action'=>'add']);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно добавен вид гориво '{$newFuel->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен вид гориво '{$newFuel->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 
@@ -128,7 +128,7 @@ class FuelController extends \Laminas\Mvc\Controller\AbstractActionController
             return $this->redirect()->toUrl($backLink);
         }
 
-        $this->flashMessenger()->addErrorMessage("Успешно изтрит вид гориво '{$model->name}'!");
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит вид гориво '{$model->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
 

@@ -90,7 +90,7 @@ class UserController extends AbstractActionController
 
         try {
             $this->userTable->update($newUser);
-        } catch (\Exception $e) { var_dump($e);
+        } catch (\Exception $e) {
             $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
             return $this->redirect()->toRoute('application', ['controller'=>'user', 'action'=>'edit'], ['query' => ['id'=>$id]]);
         }
