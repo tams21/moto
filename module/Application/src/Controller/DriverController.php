@@ -2,6 +2,8 @@
 
 namespace Application\Controller;
 
+use Application\Model\Assignment;
+use Application\Model\AssignmentTable;
 use Application\Model\Driver;
 use Application\Model\OfficeTable;
 use Application\Model\Pagination;
@@ -11,6 +13,7 @@ use Application\Model\Vehicle;
 use Application\Model\VehicleTable;
 use Laminas\Db\Sql\Join;
 use Laminas\Db\Sql\Select;
+use Laminas\Validator\Date;
 use Laminas\View\Model\ViewModel;
 
 class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
@@ -20,14 +23,17 @@ class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
     private DriverTable $driverTable;
     private OfficeTable $officeTable;
     private VehicleTable $vehicleTable;
+    private AssignmentTable $assignmentTable;
 
     public function __construct(DriverTable $driverTable,
                                 OfficeTable $officeTable,
-                                VehicleTable $vehicleTable)
+                                VehicleTable $vehicleTable,
+                                AssignmentTable $assignmentTable)
     {
         $this->driverTable = $driverTable;
         $this->officeTable = $officeTable;
         $this->vehicleTable = $vehicleTable;
+        $this->assignmentTable = $assignmentTable;
     }
 
     public function ListAction()
@@ -103,6 +109,31 @@ class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
         $newDriver = new Driver($postedData);
         $newDriver->exchangeArray($postedData);
 
+        if ($driver->vehicle_id !== $newDriver->vehicle_id) {
+            if ($driver->vehicle_id) {
+                $assignmentSet = $this->assignmentTable->fetchAll(function (Select $select) use ($driver) {
+                    $select->where("vehicle_id = '{$driver->vehicle_id}' AND driver_id = '{$driver->id}'");
+                    $select->order('start_day DESC');
+                    $select->limit(1);
+                });
+                $assignment = $assignmentSet->current();
+                if ($assignment) {
+                    $assignment->end_day = (new \DateTime())->format('Y-m-d');
+                    $this->assignmentTable->update($assignment);
+                }
+            }
+
+            if ($newDriver->vehicle_id) {
+                $newAssignment = new Assignment();
+                $newAssignment->exchangeArray([
+                    'vehicle_id' => $newDriver->vehicle_id,
+                    'driver_id' => $newDriver->id,
+                    'start_day' => (new \DateTime())->format('Y-m-d'),
+                    'end_day' => null,
+                ]);
+                $this->assignmentTable->insert($newAssignment);
+            }
+        }
 
         try {
             $this->driverTable->update($newDriver);
@@ -135,6 +166,17 @@ class DriverController extends \Laminas\Mvc\Controller\AbstractActionController
         $postedData = $this->params()->fromPost();
         $newDriver = new Driver($postedData);
         $newDriver->exchangeArray($postedData);
+
+        if ($newDriver->vehicle_id) {
+            $newAssignment = new Assignment();
+            $newAssignment->exchangeArray([
+                'vehicle_id' => $newDriver->vehicle_id,
+                'driver_id' => $newDriver->id,
+                'start_day' => (new \DateTime())->format('Y-m-d'),
+                'end_day' => null,
+            ]);
+            $this->assignmentTable->insert($newAssignment);
+        }
 
         try {
             $this->driverTable->insert($newDriver);

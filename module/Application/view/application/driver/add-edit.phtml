@@ -14,15 +14,15 @@ $this->headLink()->appendStylesheet($this->basePath('style/driver.css'));
                 <div class="form-field-wrapper"><label for="inp-office_id">Офис</label>
                     <select id="inp-office_id" name="office_id">
                         <option value="">Изберете...</option>
-                        <?php foreach($this->offices??[] as $v) {?>
-                            <option value="<?=$v->id?>"<?=($this->model->office_id??'')===$v->id? ' selected' : ''?>><?=$v->name?></option>
+                        <?php foreach($this->offices??[] as $v) { ?>
+                            <option value="<?=$v->id?>"<?=($this->model->office_id??'')===(int)$v->id? ' selected' : ''?>><?=$v->name?></option>
                         <?php } ?>
                     </select></div>
                 <div class="form-field-wrapper"><label for="inp-vehicle_id">Автомобил</label>
                     <select id="inp-vehicle_id" name="vehicle_id">
                         <option value="">Изберете...</option>
-                        <?php foreach($this->vehicles??[] as $v) {?>
-                            <option value="<?=$v->id?>"<?=($this->model->vehicle_id??'')===$v->id? ' selected' : ''?>>[<?=$v->reg_nomer?>] <?=$v->model?></option>
+                        <?php foreach($this->vehicles??[] as $v) { var_dump($this->model->vehicle_id);?>
+                            <option value="<?=$v->id?>"<?=($this->model->vehicle_id??'')===(int)$v->id? ' selected' : ''?>>[<?=$v->reg_nomer?>] <?=$v->model?></option>
                         <?php } ?>
                     </select></div>
             </div>

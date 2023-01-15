@@ -7,10 +7,10 @@ use Laminas\Db\Sql\Join;
 class AssignmentTable extends AbstractTable
 {
     /**
-     * @param Driver $model
+     * @param Assignment $model
      * @return int
      */
-    public function update(Driver $model) :int
+    public function update(Assignment $model) :int
     {
         $data = $model->getArrayCopy();
         $id =  $model->id;
@@ -20,10 +20,10 @@ class AssignmentTable extends AbstractTable
     }
 
     /**
-     * @param Driver $model
+     * @param Assignment $model
      * @return int
      */
-    public function insert(Driver $model) :int
+    public function insert(Assignment $model) :int
     {
         $data = $model->getArrayCopy();
         unset($data['id']);
@@ -32,10 +32,10 @@ class AssignmentTable extends AbstractTable
     }
 
     /**
-     * @param Driver $model
+     * @param Assignment $model
      * @return int
      */
-    public function delete(Driver $model) :int
+    public function delete(Assignment $model) :int
     {
         return $this->deleteRecord(['id' => $model->id]);
     }

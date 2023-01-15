@@ -15,7 +15,7 @@ class Assignment extends \ArrayObject
 
     public function exchangeArray($input)
     {
-        $this->id = $input["id"];
+        $this->id = $input["id"]??null;
         $input["vehicle_id"] = empty($input["vehicle_id"]) ? null : (int) $input["vehicle_id"];
         $input["driver_id"] = empty($input["driver_id"]) ? null : (int) $input["driver_id"];
         $this->vehicle_id = $input["vehicle_id"];;

@@ -31,7 +31,7 @@ class AbstractTable
         return $this->getTableGateway()->select(function($select) use ($page, $onPage, $filter){
             $select->quantifier('SQL_CALC_FOUND_ROWS');
             $select->limit($onPage);
-            $select->order('date_refueling DESC');
+            $select->order('id DESC');
             $select->offset(($page-1) * $onPage);
             if (is_callable($filter)) {
                 $filter($select);
