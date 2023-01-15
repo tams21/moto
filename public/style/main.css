@@ -719,11 +719,12 @@ button:active, .button:active {
     top: 0.25rem;
     line-height: 2.5rem !important;
     transition: all 200ms ease-out;
+    z-index: 1;
 }
 
 .search-bar:not(.--has-value) .search-clear {
     opacity: 0;
-    right: -2rem;
+    z-index: -1;
 }
 
 .search-clear:hover {
