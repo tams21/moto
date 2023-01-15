@@ -2,7 +2,30 @@
 /**
  * @var Laminas\View\Renderer\PhpRenderer $this
  */
+$this->headLink()->appendStylesheet($this->basePath('style/index.css'));
 ?>
 <div>
-hello Арес
+    <div class="dashboard">
+        <?php if($this->vehicle) {?>
+        <div class="card">
+            <div class="card-title"><strong class="card-title-main"><span class="material-symbols-sharp">directions_car</span> <?=$this->vehicle->reg_nomer?></strong>
+                <span class="card-title-info"><?=$this->vehicle->color?> <?=$this->vehicle->model?> (<?=$this->vehicle->year_manufactured?>)</span></div>
+            <div class="card-body">
+                <div class="card-info">
+                    <div class="card-info-item" title="Одометър">
+                        <span class="material-symbols-sharp">speed</span> <?=$this->vehicle->odometer?>
+                    </div>
+                    <div class="card-info-item" title="Последно зареждане">
+                        <span class="material-symbols-sharp">local_gas_station</span> <?=DateTime::createFromFormat('Y-m-d H:i:s', $this->refueling->date_refueling)->format('d.m.Y')?>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="card-button" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'addFueling'], ['query'=>['vehicleId'=>$this->vehicle->id, 'backUrl'=>$this->backUrl]])?>"><span class="material-symbols-sharp">local_gas_station</span> Добави зареждане</a>
+                <a class="card-button" href="#"><span class="material-symbols-sharp">calendar_month</span> Добави поддръжка</a>
+                <a class="card-button" href="#"><span class="material-symbols-sharp">receipt_long</span> Добави пътен лист</a>
+            </div>
+        </div>
+        <?php } ?>
+    </div>
 </div>

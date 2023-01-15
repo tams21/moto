@@ -95,4 +95,9 @@ create view fuel_report as
         JOIN refueling as r on v.id = r.vehicle_id
         JOIN fuel as f on f.id = r.fuel_id;
 
+# 2023-01-15 - assignments fields
+alter table assignments
+    change drivers_id driver_id int null;
 
+alter table assignments
+    change vecihcle_id vehicle_id int null;

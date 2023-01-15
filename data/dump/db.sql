@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `assignments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `assignments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `vecihcle_id` int DEFAULT NULL,
-  `drivers_id` int DEFAULT NULL,
+  `vehicle_id` int DEFAULT NULL,
+  `driver_id` int DEFAULT NULL,
   `start_day` datetime DEFAULT CURRENT_TIMESTAMP,
   `end_day` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)

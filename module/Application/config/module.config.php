@@ -63,6 +63,19 @@ return [
     ],
     "service_manager"=>[
         "factories"=>[
+            Model\AssignmentTable::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\AssignmentTableGateway::class);
+                return new Model\AssignmentTable($tableGateway);
+            },
+            Model\AssignmentTableGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\Assignment());
+                return new TableGateway('assignments', $dbAdapter, null, $resultSetPrototype);
+            },
+
             Model\UserTable::class=>function ($container)
             {
                 $tableGateway=$container->get(Model\UserTableGateway::class);

@@ -172,7 +172,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
      */
     private function getFuels(Vehicle $vehicle = null): array
     {
-        if (empty($vehicle)) {
+        if (empty($vehicle) || empty($vehicle->getFuels())) {
             $fuelResultSet = $this->fuelTable->fetchAll();
         } else {
             $fuelResultSet = $this->fuelTable->fetchAll(function ($select) use ($vehicle) {
@@ -252,6 +252,11 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
         $vehicle = $this->vehicleTable->fetchByIdWithFuel($vehicleId);
         if (empty($vehicleId)) {
             $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        if (empty($vehicle->getFuels())) {
+            $this->flashMessenger()->addErrorMessage('Автомобилат няма избран вид гориво!');
             return $this->redirect()->toUrl($backLink);
         }
 
