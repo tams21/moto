@@ -52,19 +52,20 @@ class IndexController extends AbstractActionController
             $select->order("start_day DESC");
         });
         $assignment = $assignmentSet->current();
+        if($assignment) {
+            $vehicle = $this->vehicleTable->fetchById($assignment->vehicle_id);
 
-        $vehicle=$this->vehicleTable->fetchById($assignment->vehicle_id);
-
-        $refuelingSet =  $this->refuelingTable->fetchAll(function(Select $select) use ($vehicle){
-            $select->where("vehicle_id = '{$vehicle->id}'");
-            $select->order('date_refueling DESC');
-            $select->limit(1);
-        });
-        $refueling = $refuelingSet->current();
+            $refuelingSet = $this->refuelingTable->fetchAll(function (Select $select) use ($vehicle) {
+                $select->where("vehicle_id = '{$vehicle->id}'");
+                $select->order('date_refueling DESC');
+                $select->limit(1);
+            });
+            $refueling = $refuelingSet->current();
+        }
 
         $viewData = [
-            'vehicle' => $vehicle,
-            'refueling' => $refueling,
+            'vehicle' => $vehicle??null,
+            'refueling' => $refueling??null,
         ];
         return new ViewModel($viewData);
     }

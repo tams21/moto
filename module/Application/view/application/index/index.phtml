@@ -15,9 +15,9 @@ $this->headLink()->appendStylesheet($this->basePath('style/index.css'));
                     <div class="card-info-item" title="Одометър">
                         <span class="material-symbols-sharp">speed</span> <?=$this->vehicle->odometer?>
                     </div>
-                    <div class="card-info-item" title="Последно зареждане">
+                    <?php if($this->refueling) {?><div class="card-info-item" title="Последно зареждане">
                         <span class="material-symbols-sharp">local_gas_station</span> <?=DateTime::createFromFormat('Y-m-d H:i:s', $this->refueling->date_refueling)->format('d.m.Y')?>
-                    </div>
+                    </div><?php } ?>
                 </div>
             </div>
             <div class="card-footer">
