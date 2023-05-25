@@ -101,3 +101,11 @@ alter table assignments
 
 alter table assignments
     change vecihcle_id vehicle_id int null;
+
+# 2023-05-08 - Syntactic error
+alter table transire
+    change start_odometar start_odometer int null;
+alter table transire
+    change id_drivers driver_id int null;
+alter table transire
+    add vehicle_id int null after driver_id;

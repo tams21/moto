@@ -2,6 +2,9 @@
 /**
  * @var Laminas\View\Renderer\PhpRenderer $this
  */
+
+use Application\ViewHelper\DateFormat;
+
 $this->headTitle($this->title);
 $this->headTitle('Авто парк');
 $this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
@@ -14,7 +17,7 @@ $this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
                     <li class="app-list-item">
                         <span class="app-list-item__graphic"><span class="material-symbols-sharp">local_gas_station</span></span>
                         <span class="app-list-item__body">
-                            <span class="app-list-item__body--line1"><?=$this->DateFormat()->fromString($m->date_refueling, 'Y-m-d H:i:s')?></span>
+                            <span class="app-list-item__body--line1"><?=$this->DateFormat()->fromString($m->date_refueling, DateFormat::FORMAT_ISO_DATETIME)?></span>
                             <span class="app-list-item__body--line2"><?=$m->odometer?> <?=$m->cost?> (<?=$m->quantity?>)</span>
                         </span>
                         <span class="app-list-item__controls">

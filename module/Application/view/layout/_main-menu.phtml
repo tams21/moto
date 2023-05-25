@@ -3,7 +3,7 @@
         <a href="<?=$this->url('application', ['controller'=>'index', 'action'=>'index'])?>"><span class="material-symbols-sharp menu-item__graphic">home</span>Начало</a>
     </div>
     <div class="menu-item">
-        <a href="#"><span class="material-symbols-sharp menu-item__graphic">receipt_long</span>Пътен лист</a>
+        <a href="<?=$this->url('application', ['controller'=>'transire', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">receipt_long</span>Пътен лист</a>
     </div>
     <?php if ($this->identity()->role === 'administrator') { ?>
     <div class="menu-item">

@@ -735,3 +735,11 @@ button:active, .button:active, .card-button:active {
 .search-field button {
 
 }
+
+
+.input-odometer {
+    width: 6.25rem;
+    font-family: monospace;
+    font-size: 1.25rem;
+    text-align: right;
+}

@@ -1,0 +1,59 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+
+use Application\ViewHelper\DateFormat;
+
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/office.css'));
+?><div class="page">
+    <div class="form-panel">
+        <form action="" method="post">
+            <input type="hidden" name="id" value="<?=$this->model->id??''?>">
+            <div class="form-field-wrapper"><label for="inp-date">Дата</label>
+                <input type="date" name="date" id="inp-date" value="<?=$this->DateFormat()->fromString($this->model->date??$this->date, DateFormat::FORMAT_ISO_DATETIME, DateFormat::FORMAT_ISO_DATE)?>" /></div>
+            <div class="form-field-wrapper"><label for="inp-driver_id">Шофьор</label>
+                <select name="driverId<?=($this->driverFixed??false) ? '_disabled' : '' ?>" id="inp-driver_id"<?=($this->driverFixed??false) ? ' disabled' : '' ?>>
+                    <?php foreach ($this->driverList as $k=>$v) {
+                        $this->start_odometer = $v->odometer?>
+                        <option value="<?=$v->id?>"<?=($this->model->driver_id??$this->driverId??false) === $v->id ? ' selected' : ''?>
+                                data-odometer="<?=$v->odometer?>"
+                        ><?=$v->name?></option>
+                    <?php } ?>
+                </select>
+                <?php if ($this->driverFixed??false) { ?>
+                    <input type="hidden" name="driver_id" value="<?=$this->model->driver_id??$this->driverId?>">
+                <?php } ?>
+            </div>
+            <div class="form-field-wrapper"><label for="inp-vehicle_id">Автомобил</label>
+                <select name="vehicle_id" id="inp-vehicle_id"<?=($this->vehicleFixed??false) ? ' disabled' : '' ?>>
+                    <?php foreach ($this->vehicleList as $k=>$v) {
+                        $this->start_odometer = $v->odometer?>
+                        <option value="<?=$v->id?>"<?=($this->model->vehicle_id??$this->vehicleId??false) === $v->id ? ' selected' : ''?>
+                            data-odometer="<?=$v->odometer?>"
+                            ><?=$v->reg_nomer?> <?=$v->model?> (<?=$v->year_manufactured?>)</option>
+                    <?php } ?>
+                </select>
+                <?php if ($this->vehicleFixed??false) { ?>
+                     <input type="hidden" name="vehicle_id" value="<?=$this->model->vehicle_id??$this->vehicleId?>">
+                <?php } ?>
+            </div>
+
+            <div class="form-fields">
+                <div class="form-field-wrapper"><label>Километраж</label>
+                    <div><label for="inp-start_odometer">Начало:</label><input type="number" max="999999" name="start_odometer" id="inp-start_odometer" class="input-odometer" value="<?=$this->model->start_odometer??$this->start_odometer??''?>" >
+                    <label for="inp-end_odometer"> Край:</label><input type="number" max="999999" name="end_odometer" id="inp-end_odometer" class="input-odometer" value="<?=$this->model->end_odometer??''?>"></div>
+                </div>
+
+                <div class="form-field-wrapper"><label for="inp-route">Маршрут</label>
+                    <textarea name="route" id="inp-route" rows="3" cols="40"><?=$this->model->route??$this->route??''?></textarea></div>
+            </div>
+
+            <div class="form-controls">
+                <a class="button" href="<?=$this->backlink?>"><span class="material-symbols-sharp">arrow_back</span> Назад</a>
+                <button><span class="material-symbols-sharp">save</span> Запис</button>
+            </div>
+        </form>
+    </div>
+</div>

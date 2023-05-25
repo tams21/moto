@@ -7,6 +7,8 @@ use Laminas\View\Helper\AbstractHelper;
 
 class DateFormat extends AbstractHelper
 {
+    const FORMAT_ISO_DATE = 'Y-m-d';
+    const FORMAT_ISO_DATETIME = 'Y-m-d H:i:s';
     const FORMAT_TO = 'd.m.Y';
     const FORMAT_FROM = 'Y-m-d';
 

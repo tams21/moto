@@ -16,12 +16,12 @@ class Vehicle extends \ArrayObject
     public function exchangeArray($input)
     {
         $this->id=$input["id"];
-        $this->reg_nomer=$input["reg_nomer"];
-        $this->model=$input["model"];
-        $this->odometer=$input["odometer"];
-        $this->color=$input["color"];
-        $this->year_manufactured=$input["year_manufactured"];
-        $this->notes=$input["notes"];
+        $this->reg_nomer=$input["reg_nomer"]??null;
+        $this->model=$input["model"]??null;
+        $this->odometer=$input["odometer"]??null;
+        $this->color=$input["color"]??null;
+        $this->year_manufactured=$input["year_manufactured"]??null;
+        $this->notes=$input["notes"]??null;
         parent::exchangeArray($input);
     }
 

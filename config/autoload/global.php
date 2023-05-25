@@ -13,5 +13,9 @@
  */
 
 return [
-    // ...
+    'session_config' => [
+        'phpSaveHandler' => 'file',
+        'cookie_path' => '/',
+        'cookie_lifetime' => 3600,
+    ],
 ];

@@ -13,7 +13,7 @@ class VehicleTable extends AbstractTable
         $this->vehicleFuelTableGateway = $vehicleFuelTableGateway;
     }
 
-    public function fetchById(int $id)
+    public function fetchById(int $id): Vehicle
     {
         $model = $this->getTableGateway()->select(['id'=>$id]);
         return $model->current();

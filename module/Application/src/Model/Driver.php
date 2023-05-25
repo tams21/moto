@@ -17,8 +17,8 @@ class Driver extends \ArrayObject
         $this->name = $input["name"];
         $input["office_id"] = empty($input["office_id"]) ? null : (int) $input["office_id"];
         $input["vehicle_id"] = empty($input["vehicle_id"]) ? null : (int) $input["vehicle_id"];
-        $this->office_id = $input["office_id"];
-        $this->vehicle_id = $input["vehicle_id"];;
+        $this->office_id = $input["office_id"]??null;
+        $this->vehicle_id = $input["vehicle_id"]??null;;
 
         if (!empty($input["office_name"])) {
             $officeData = [

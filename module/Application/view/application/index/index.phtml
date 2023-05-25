@@ -23,7 +23,7 @@ $this->headLink()->appendStylesheet($this->basePath('style/index.css'));
             <div class="card-footer">
                 <a class="card-button" href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'addFueling'], ['query'=>['vehicleId'=>$this->vehicle->id, 'backUrl'=>$this->backUrl]])?>"><span class="material-symbols-sharp">local_gas_station</span> Добави зареждане</a>
                 <a class="card-button" href="#"><span class="material-symbols-sharp">calendar_month</span> Добави поддръжка</a>
-                <a class="card-button" href="#"><span class="material-symbols-sharp">receipt_long</span> Добави пътен лист</a>
+                <a class="card-button" href="<?=$this->url('application', ['controller'=>'transire', 'action'=>'add'], ['query'=>['vehicleId'=>$this->vehicle->id, 'backUrl'=>$this->backUrl]])?>"><span class="material-symbols-sharp">receipt_long</span> Добави пътен лист</a>
             </div>
         </div>
         <?php } ?>
