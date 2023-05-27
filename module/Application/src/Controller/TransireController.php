@@ -32,7 +32,9 @@ class TransireController extends \Laminas\Mvc\Controller\AbstractActionControlle
         $page = $this->params()->fromQuery('page', 1);
         $viewData = [];
         $result = $this->transireTable->fetchAllPaginatedWithDetails($page, self::ITEMS_PER_PAGE, function(Select $select) use ($driverId) {
-            $select->where("transire.driver_id='{$driverId}'");
+            if (!is_null($driverId)) {
+                $select->where("transire.driver_id='{$driverId}'");
+            }
         });
         $models = [];
 
