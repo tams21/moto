@@ -7,6 +7,8 @@ use Application\Model\MaintenanceSchedule;
 use Application\Model\MaintenanceScheduleTable;
 use Application\Model\MaintenanceTable;
 use Application\Model\Pagination;
+use Application\Model\Repair;
+use Application\Model\RepairTable;
 use Application\Model\Refueling;
 use Application\Model\RefuelingTable;
 use Application\Model\Vehicle;
@@ -23,19 +25,22 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
     private RefuelingTable $refuelingTable;
     private MaintenanceScheduleTable $maintenanceScheduleTable;
     private MaintenanceTable $maintenanceTable;
+    private RepairTable $repairTable;
 
     public function __construct(
-        VehicleTable $vehicleTable,
-        FuelTable $fuelTable,
-        RefuelingTable $refuelingTable,
-        MaintenanceTable $maintenanceTable,
-        MaintenanceScheduleTable $maintenanceScheduleTable)
+        VehicleTable             $vehicleTable,
+        FuelTable                $fuelTable,
+        RefuelingTable           $refuelingTable,
+        MaintenanceTable         $maintenanceTable,
+        MaintenanceScheduleTable $maintenanceScheduleTable,
+        RepairTable              $repairTable)
     {
         $this->vehicleTable = $vehicleTable;
         $this->fuelTable = $fuelTable;
         $this->refuelingTable = $refuelingTable;
         $this->maintenanceTable = $maintenanceTable;
         $this->maintenanceScheduleTable = $maintenanceScheduleTable;
+        $this->repairTable = $repairTable;
     }
 
     public function ListAction()
@@ -422,6 +427,158 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
         return new ViewModel($viewData);
     }
 
+    public function RepairAction()
+    {
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'list']);
+        $page = $this->params()->fromQuery('page', 1);
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        $viewData = [];
+        $vehicle = $this->vehicleTable->fetchById($vehicleId);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        $repairResult = $this->repairTable->fetchAllPaginated($page, self::ITEMS_PER_PAGE,
+            function ($select) use ($vehicleId) {
+                $select->where("vehicle_id={$vehicleId}");
+            });
+        $models = [];
+        foreach ($repairResult as $u) {
+            $models[] = $u;
+        }
+        $totalNumberOfRows = $this->repairTable->getLastFoundRows();
+
+        $pagination = new Pagination($page, ceil($totalNumberOfRows / self::ITEMS_PER_PAGE));
+
+        $viewData['action'] = 'repair';
+        $viewData['models'] = $models;
+        $viewData['title'] = 'Ремонти';
+        $viewData['vehicle'] = $vehicle;
+        $viewData['backlink'] = $backLink;
+        $this->layout()->setVariable('backlink', $backLink);
+        $viewData['pagination'] = $pagination;
+        return new ViewModel($viewData);
+    }
+
+    public function AddRepairAction()
+    {
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'repair'], ['query'=>['vehicleId'=>$vehicleId]]);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        /** @var Vehicle $vehicle */
+        $vehicle = $this->vehicleTable->fetchByIdWithFuel($vehicleId);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        if (!$this->getRequest()->isPost()) {
+            $viewData = [];
+            $viewData['title'] = 'Добавяне на ремонт';
+            $viewData['vehicle'] = $vehicle;
+            $viewData['model'] = null;
+            $viewData['backlink'] = $backLink;
+            $this->layout()->setVariable('backlink', $backLink);
+            $view = new ViewModel($viewData);
+            $view->setTemplate('application/vehicle/add-edit_repair.phtml');
+            return $view;
+        }
+
+        $postedData = $this->params()->fromPost();
+
+        $newRepair = new Repair($postedData);
+        $newRepair->exchangeArray($postedData);
+
+        try {
+            $this->repairTable->insert($newRepair);
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
+            return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'addRepair'], ['query'=>['vehicleId'=>$vehicleId]]);
+        }
+
+        $this->flashMessenger()->addSuccessMessage("Успешно добавен ремонт!");
+        return $this->redirect()->toUrl($backLink);
+    }
+
+    public function EditRepairAction()
+    {
+        $id = $this->params()->fromQuery('id', 1);
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'repair'], ['query'=>['vehicleId'=>$vehicleId]]);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        /** @var Vehicle $vehicle */
+        $vehicle = $this->vehicleTable->fetchByIdWithFuel($vehicleId);
+        if (empty($vehicleId)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е намерена!');
+            return $this->redirect()->toUrl($backLink);
+        }
+        $repair = $this->repairTable->fetchById($id);
+
+        if (!$this->getRequest()->isPost()) {
+            $viewData = [];
+            $viewData['title'] = 'Редакция на график за поддръжка';
+            $viewData['vehicle'] = $vehicle;
+            $viewData['model'] = $repair;
+            $viewData['backlink'] = $backLink;
+            $this->layout()->setVariable('backlink', $backLink);
+            $view = new ViewModel($viewData);
+            $view->setTemplate('application/vehicle/add-edit_repair.phtml');
+            return $view;
+        }
+
+
+        $postedData = $this->params()->fromPost();
+
+        $newRepair = new Repair($postedData);
+        $newRepair->exchangeArray($postedData);
+
+        try {
+            $this->repairTable->update($newRepair);
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('Възникна проблем със записа. Моля провере данните и опитайте отново');
+            return $this->redirect()->toRoute('application', ['controller'=>'vehicle', 'action'=>'editRepair'], ['query'=>['vehicleId'=>$vehicleId]]);
+        }
+
+        $this->flashMessenger()->addSuccessMessage("Успешно редактиран ремонт!");
+        return $this->redirect()->toUrl($backLink);
+    }
+
+    public function DeleteRepairAction()
+    {
+        $vehicleId = $this->params()->fromQuery('vehicleId', null);
+        $id = $this->params()->fromQuery('id', 1);
+        $backLink = $this->url()->fromRoute('application', ['controller'=>'vehicle', 'action'=>'repair'], ['query'=>['vehicleId'=>$vehicleId]]);
+
+        try {
+            $model = $this->repairTable->fetchById($id);
+        } catch (\Error $e) {}
+
+        if (empty($model)) {
+            $this->flashMessenger()->addErrorMessage('Страницата не е открита!');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        try {
+            $this->repairTable->delete($model);
+        } catch (\Exception $e) {
+            $this->flashMessenger()->addErrorMessage('Възникна проблем със изтриването на записа.');
+            return $this->redirect()->toUrl($backLink);
+        }
+
+        $this->flashMessenger()->addSuccessMessage("Успешно изтрит ремонт!");
+        return $this->redirect()->toUrl($backLink);
+    }
+
     public function AddMaintenanceScheduleAction()
     {
         $vehicleId = $this->params()->fromQuery('vehicleId', null);
@@ -467,6 +624,7 @@ class VehicleController extends \Laminas\Mvc\Controller\AbstractActionController
         $this->flashMessenger()->addSuccessMessage("Успешно добавено график за поддръжка '{$maintenances[$newMaintenanceSchedule->maintenance_id]->name}'!");
         return $this->redirect()->toUrl($backLink);
     }
+
     public function EditMaintenanceScheduleAction()
     {
         $id = $this->params()->fromQuery('id', 1);

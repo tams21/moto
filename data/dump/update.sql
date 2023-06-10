@@ -109,3 +109,27 @@ alter table transire
     change id_drivers driver_id int null;
 alter table transire
     add vehicle_id int null after driver_id;
+
+
+# 2023-06-09 - Add new roll to the users
+alter table repair
+    change id_vechicle vehicle_id int null;
+
+alter table repair
+    add odometer varchar(8) not null;
+
+alter table repair
+    add cost decimal(10, 2) null;
+
+alter table repair
+    add invoice_issuer varchar(20) null after notes;
+
+
+alter table repair
+    add invoice_num varchar(20) null after invoice_issuer;
+
+alter table repair
+    modify description TEXT null;
+
+alter table repair
+    modify notes TEXT null

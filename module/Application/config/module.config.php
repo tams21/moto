@@ -145,10 +145,10 @@ return [
                 return new TableGateway('maintenance_schedule', $dbAdapter, null, $resultSetPrototype);
             },
             
-            Model\RapairTable::class=>function ($container)
+            Model\RepairTable::class=>function ($container)
             {
                 $tableGateway=$container->get(Model\RapairTableGateway::class);
-                return new Model\RapairTable($tableGateway);
+                return new Model\RepairTable($tableGateway);
             },
             Model\RapairTableGateway::class=>function ($container)
             {

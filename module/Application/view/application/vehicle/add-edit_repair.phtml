@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/vehicle.css'));
+$this->headScript()->appendFile($this->basePath('script/vehicle.js'));
+?><div class="page">
+    <div class="form-panel">
+        <div class="info-header">
+            <h3><?=$this->vehicle->reg_nomer?></h3>
+            <span><?=$this->vehicle->model?></span>
+            <span><?=$this->vehicle->color?></span>
+            <span>(<?=$this->vehicle->year_manufactured?>)</span>
+        </div>
+        <form action="" method="post">
+            <input type="hidden" name="id" value="<?=$this->model->id??''?>">
+            <input type="hidden" name="vehicle_id" value="<?=$this->vehicle->id??''?>">
+            <div class="form-fields">
+                <div class="form-field-wrapper"><label for="inp-date_repair">дата</label>
+                    <input type="date" name="date_repair" id="inp-date_repair" value="<?=$this->model->date_repair??date('Y-m-d')?>"></div>
+                <div class="form-field-wrapper"><label for="inp-odometer">Одометър</label>
+                    <input type="number" max="999999" class="input-odometer" name="odometer" id="inp-odometer" value="<?=$this->model->odometer??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-invoice_issuer">Фактура издадена от</label>
+                    <input type="text" name="invoice_issuer" id="inp-invoice_issuer" value="<?=$this->model->invoice_issuer??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-invoice_num">Фактура номер</label>
+                    <input type="text" name="invoice_num" id="inp-invoice_num" value="<?=$this->model->invoice_num??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-cost">Цена (лв.)</label>
+                    <input type="number" name="cost" id="inp-cost" value="<?=$this->model->cost??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-description">Описание на ремонта</label>
+                    <textarea name="description" id="inp-description" cols="60" rows="6"><?=$this->model->description??''?></textarea></div>
+                <div class="form-field-wrapper"><label for="inp-notes">Допълнителни бележки</label>
+                    <textarea name="notes" id="inp-notes" cols="60" rows="4"><?=$this->model->notes??''?></textarea></div>
+
+            </div>
+
+            <div class="form-controls">
+                <a class="button" href="<?=$this->backlink?>"><span class="material-symbols-sharp">arrow_back</span> Назад</a>
+                <button><span class="material-symbols-sharp">save</span> Запис</button>
+            </div>
+        </form>
+    </div>
+</div>
