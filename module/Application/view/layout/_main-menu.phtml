@@ -5,7 +5,7 @@
     <div class="menu-item">
         <a href="<?=$this->url('application', ['controller'=>'transire', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">receipt_long</span>Пътен лист</a>
     </div>
-    <?php if ($this->identity()->role === 'administrator') { ?>
+    <?php if (in_array($this->identity()->role, ['administrator', 'operator'])) { ?>
     <div class="menu-item">
         <a href="<?=$this->url('application', ['controller'=>'vehicle', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">directions_car</span>Авто парк</a>
     </div>
@@ -29,9 +29,6 @@
         <a href="#" class="menu-item__submenu-trigger"><span class="material-symbols-sharp menu-item__graphic">settings</span>Администриране</a>
         <div class="menu-item__submenu">
             <div class="menu-item">
-                <a href="<?=$this->url('application', ['controller'=>'office', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">location_city</span>Офиси</a>
-            </div>
-            <div class="menu-item">
                 <a href="<?=$this->url('application', ['controller'=>'driver', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">badge</span>Шофьори</a>
             </div>
             <div class="menu-item">
@@ -40,9 +37,14 @@
             <div class="menu-item">
                 <a href="<?=$this->url('application', ['controller'=>'maintenance', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">garage</span>Видове поддръжка</a>
             </div>
-            <div class="menu-item">
-                <a href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">group</span>Потребители</a>
-            </div>
+            <?php if (in_array($this->identity()->role, ['administrator'])) { ?>
+                <div class="menu-item">
+                    <a href="<?=$this->url('application', ['controller'=>'office', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">location_city</span>Офиси</a>
+                </div>
+                <div class="menu-item">
+                    <a href="<?=$this->url('application', ['controller'=>'user', 'action'=>'list'])?>"><span class="material-symbols-sharp menu-item__graphic">group</span>Потребители</a>
+                </div>
+            <?php } ?>
         </div>
     </div>
     <?php } ?>

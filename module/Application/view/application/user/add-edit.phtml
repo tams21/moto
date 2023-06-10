@@ -18,6 +18,7 @@ $this->headScript()->appendFile($this->basePath('script/user.js'));
                     <select  name="role" id="inp-role">
                         <option<?=($this->model->role??'')===''              ? ' selected' : ''?> value="">Изберете...</option>
                         <option<?=($this->model->role??'')==='administrator' ? ' selected' : ''?> value="administrator">Администратор</option>
+                        <option<?=($this->model->role??'')==='operator'      ? ' selected' : ''?> value="operator">Оператор</option>
                         <option<?=($this->model->role??'')==='driver'        ? ' selected' : ''?> value="driver">Шофьор</option>
                     </select></div>
                 <div id="driver-role" class="<?=($this->model->role??'')==='driver'?'--opened':''?>">

@@ -111,7 +111,7 @@ alter table transire
     add vehicle_id int null after driver_id;
 
 
-# 2023-06-09 - Add new roll to the users
+# 2023-06-09 - Update repair table
 alter table repair
     change id_vechicle vehicle_id int null;
 
@@ -133,3 +133,8 @@ alter table repair
 
 alter table repair
     modify notes TEXT null
+
+# 2023-06-10 - Add new roll to the users
+alter table users
+    modify role enum ('administrator', 'operator', 'driver') null;
+
