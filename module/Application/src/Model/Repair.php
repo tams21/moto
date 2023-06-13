@@ -11,7 +11,8 @@ class Repair extends \ArrayObject
     public $car_service;
     public $notes;
     public $vehicle_id;
-    
+    public $cost;
+
     public function exchangeArray($input)
     {
         $this->id=$input["id"];
@@ -22,6 +23,7 @@ class Repair extends \ArrayObject
         $this->car_service=$input["car_service"];
         $this->notes=$input["notes"];
         $this->vehicle_id=$input["vehicle_id"];
+        $this->cost=$input["cost"];
     }
 }
 
