@@ -30,10 +30,31 @@ class TransireController extends \Laminas\Mvc\Controller\AbstractActionControlle
     {
         $driverId = $this->identity()->role === 'driver' ? $this->identity()->driver_id : null;
         $page = $this->params()->fromQuery('page', 1);
+        $from_date = $this->params()->fromQuery('from_date', date('Y-m-d', strtotime('-1month')));
+        $to_date = $this->params()->fromQuery('to_date', date('Y-m-d', strtotime('now')));
+        $driver_id = $driverId ?: $this->params()->fromQuery('driver_id', $driverId);
+        $vehicle_id = $this->params()->fromQuery('vehicle_id', null);
+        $filters = [
+            'from_date' => $from_date,
+            'to_date' => $to_date,
+            'driver_id' => $driver_id,
+            'vehicle_id' => $vehicle_id,
+        ];
         $viewData = [];
-        $result = $this->transireTable->fetchAllPaginatedWithDetails($page, self::ITEMS_PER_PAGE, function(Select $select) use ($driverId) {
-            if (!is_null($driverId)) {
-                $select->where("transire.driver_id='{$driverId}'");
+        $result = $this->transireTable->fetchAllPaginatedWithDetails($page, self::ITEMS_PER_PAGE, function(Select $select) use ($filters) {
+            $where = [];
+            $where[] = "transire.date>='{$filters['from_date']}'";
+            $where[] = "transire.date<='{$filters['to_date']}'";
+
+            if (!empty($filters['driver_id'])) {
+                $where[] = "transire.driver_id='{$filters['driver_id']}'";
+            }
+            if (!empty($filters['vehicle_id'])) {
+                $where[] = "transire.vehicle_id='{$filters['vehicle_id']}'";
+            }
+
+            if (!empty($where)) {
+                $select->where(implode(' AND ', $where));
             }
         });
         $models = [];
@@ -48,6 +69,9 @@ class TransireController extends \Laminas\Mvc\Controller\AbstractActionControlle
 
         $viewData['models'] = $models;
         $viewData['pagination'] = $pagination;
+        $viewData['driverList'] = $driverId?[$this->identity()]:$this->driverTable->fetchAll();
+        $viewData['vehicleList'] = $this->vehicleTable->fetchAll();
+        $viewData['filters'] = $filters;
         return new ViewModel($viewData);
     }
 

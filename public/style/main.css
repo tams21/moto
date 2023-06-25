@@ -743,3 +743,39 @@ button:active, .button:active, .card-button:active {
     font-size: 1.25rem;
     text-align: right;
 }
+
+.list-filters {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    background: var(--background-panels-color);
+    border-radius: 0 0 1rem 1rem;
+    padding: 1rem;
+    margin: -1rem auto 1rem;
+    width: max-content;
+    max-width: calc(100vw - 2rem);
+}
+.list-filter-col {
+
+    margin: 0 1rem 1rem 0;
+}
+.list-filter-col label {
+    display: block;
+    width: 100%;
+    height: 2.25rem;
+    line-height: 2.25rem;
+}
+.list-filter-col label input,
+.list-filter-col label select {
+    margin-left: 1rem;
+    float: right;
+}
+.list-filter-col label:after {
+    clear: both;
+}
+.list-filter-col button[type="submit"] {
+    padding: 0.5rem;
+    font-size: 2rem;
+
+}

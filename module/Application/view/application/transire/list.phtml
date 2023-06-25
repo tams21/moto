@@ -9,6 +9,30 @@ $this->headTitle('Пътни листи');
 $this->headLink()->appendStylesheet($this->basePath('style/transire.css'));
 ?><div class="page">
     <div class="list-panel">
+        <form action="" method="get">
+            <div class="list-filters">
+                <div class="list-filter-col">
+                    <label>Дата: <input type="date" name="from_date" value="<?=$this->filters['from_date']?>"></label><br>
+                    <label>до: <input type="date" name="to_date" value="<?=$this->filters['to_date']?>"></label>
+                </div>
+                <div class="list-filter-col">
+                    <label>Шофьор: <select name="driver_id">
+                            <?php foreach ($this->driverList as $d) { ?>
+                                <option value="<?=$d->id?>"<?= $this->filters['driver_id'] == $d->id ? ' selected' : ''?>><?=$d->name?></option>
+                            <?php } ?>
+                        </select></label><br>
+                    <label>Автомобил: <select name="vehicle_id">
+                            <option value=""></option>
+                            <?php foreach ($this->vehicleList as $v) { ?>
+                                <option value="<?=$v->id?>"<?= $this->filters['vehicle_id'] == $v->id ? ' selected' : ''?>>[<?=$v->reg_nomer?>] <?=$v->model?></option>
+                            <?php } ?>
+                        </select></label>
+                </div>
+                <div class="list-filter-col">
+                    <button type="submit" class="icon-button">search</button>
+                </div>
+            </div>
+        </form>
         <?php if (!empty($this->models)) {?>
             <ul class="app-list transire-list">
                 <?php foreach ($this->models as $m) { ?>
