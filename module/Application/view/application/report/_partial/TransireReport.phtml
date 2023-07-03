@@ -1,0 +1,21 @@
+<table class="report-tbl">
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th style="width: 10rem;">Начален километраж за деня</th>
+        <th style="width: 10rem;">Краен километраж за деня</th>
+        <th>Маршрут</th>
+        <th>Разстояние</th>
+        <th>Управлявал автомобила</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->data as $r) { ?>
+        <tr>
+            <?php foreach ($r as $d) { ?>
+            <td><?=$d?></td>
+            <?php } ?>
+        </tr>
+    <?php } ?>
+    </tbody>
+</table>

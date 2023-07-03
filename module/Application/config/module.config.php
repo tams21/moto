@@ -244,6 +244,19 @@ return [
                 $resultSetPrototype->setArrayObjectPrototype(new Model\FuelReport());
                 return new TableGateway('fuel_report', $dbAdapter, null, $resultSetPrototype);
             },
+
+            Model\TransireReportView::class=>function ($container)
+            {
+                $tableGateway=$container->get(Model\TransireReportViewGateway::class);
+                return new Model\TransireReportView($tableGateway);
+            },
+            Model\TransireReportViewGateway::class=>function ($container)
+            {
+                $dbAdapter=$container->get(AdapterInterface::class);
+                $resultSetPrototype=new ResultSet();
+                $resultSetPrototype->setArrayObjectPrototype(new Model\TransireReport());
+                return new TableGateway('transire_report', $dbAdapter, null, $resultSetPrototype);
+            },
         ]
     ],
     'view_helpers' => [

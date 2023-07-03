@@ -1,0 +1,36 @@
+<?php
+/**
+ * @var Laminas\View\Renderer\PhpRenderer $this
+ */
+$this->headTitle($this->title);
+$this->headLink()->appendStylesheet($this->basePath('style/report.css'));
+?><div class="page">
+    <div class="form-panel">
+        <form action="" method="get">
+            <div class="filter-fields">
+                <div class="form-field-wrapper"><label for="inp-name">От дата</label>
+                    <input type="date" name="from" id="inp-name" value="<?=$this->from??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-city">До дата</label>
+                    <input type="date" name="to" id="inp-city" value="<?=$this->to??''?>"></div>
+                <div class="form-field-wrapper"><label for="inp-city">Автомобил</label>
+                    <select name="vehicle_id">
+                        <option value="">Всички</option>
+                        <?php foreach($this->vehicles as $v) {?>
+                        <option value="<?=$v->id?>"<?=$v->id==$this->vehicle_id?' selected':''?>>[<?=$v->reg_nomer?>] <?=$v->model?></option>
+                        <?php } ?>
+                    </select></div>
+            </div>
+
+            <div class="form-controls">
+                <button><span class="material-symbols-sharp">filter_alt</span> Генерирай</button>
+            </div>
+        </form>
+    </div>
+    <div class="report-wrapper">
+        <?php if (!empty($data)) { ?>
+        <div class="">
+            <?php if (!empty($this->downloadUrl)) { ?><a class="icon-button" download="download" href="<?=$this->downloadUrl?>">download</a></div><?php } ?>
+        <?=$this->partial('application/report/_partial/TransireReport.phtml')?>
+        <?php } ?>
+    </div>
+</div>

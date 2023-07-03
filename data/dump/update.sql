@@ -132,9 +132,30 @@ alter table repair
     modify description TEXT null;
 
 alter table repair
-    modify notes TEXT null
+    modify notes TEXT null;
 
 # 2023-06-10 - Add new roll to the users
 alter table users
     modify role enum ('administrator', 'operator', 'driver') null;
 
+
+# 2023-07-03 - Add new report view
+CREATE VIEW transire_report as
+select `t`.`id`                AS `id`,
+       `t`.`start_odometer`    AS `start_odometer`,
+       `t`.`end_odometer`      AS `end_odometer`,
+       `t`.`driver_id`         AS `driver_id`,
+       `t`.`vehicle_id`        AS `vehicle_id`,
+       `t`.`route`             AS `route`,
+       `t`.`date`              AS `date`,
+       `d`.`name`              AS `driver_name`,
+       `o`.`name`              AS `driver_office_name`,
+       `o`.`city`              AS `driver_office_city`,
+       `v`.`reg_nomer`         AS `vehicle_reg_nomer`,
+       `v`.`model`             AS `vehivle_model`,
+       `v`.`color`             AS `vehicle_color`,
+       `v`.`year_manufactured` AS `vehicle_year_manufactured`
+from `transire` `t`
+    join `drivers` `d` on `t`.`driver_id` = `d`.`id`
+    join `office` `o` on `d`.`office_id` = `o`.`id`
+    join `vehicles` `v` on `t`.`vehicle_id` = `v`.`id`;

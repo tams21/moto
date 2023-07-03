@@ -17,6 +17,16 @@ $this->headLink()->appendStylesheet($this->basePath('style/report.css'));
                        class="icon-button">arrow_forward</a>
                 </span>
             </li>
+            <li class="app-list-item">
+                <span class="app-list-item__graphic"><span class="material-symbols-sharp">receipt_long</span></span>
+                <span class="app-list-item__body">
+                    <span class="app-list-item__body--line1">Справка за пътни листи по автомобили</span>
+                </span>
+                <span class="app-list-item__controls">
+                    <a href="<?=$this->url('application', ['controller'=>'report', 'action'=>'transire'])?>"
+                       class="icon-button">arrow_forward</a>
+                </span>
+            </li>
         </ul>
     </div>
 </div>
